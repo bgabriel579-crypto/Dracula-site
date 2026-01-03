@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DRACULA • $DRAC</title>
+  <meta name="description" content="DRACULA ($DRAC) — community-driven token pe BSC. Fair launch, no insiders.">
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="DRACULA • $DRAC">
+  <meta property="og:description" content="DRACULA ($DRAC) — community-driven token pe BSC. Fair launch, no insiders.">
+  <meta property="og:image" content="logo.svg">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img src="logo.svg" alt="DRACULA logo" class="logo" />
+        <span class="brand-name">DRACULA<span class="symbol"> • $DRAC</span></span>
+      </a>
+
+      <nav class="nav" id="nav">
+        <a href="#about" data-i18n="nav.about">Despre</a>
+        <a href="#token" data-i18n="nav.token">Token</a>
+        <a href="#roadmap" data-i18n="nav.roadmap">Roadmap</a>
+        <a href="#stats" data-i18n="nav.stats">Statistici</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <select id="langSelect" aria-label="Language selector">
+          <option value="ro">RO</option>
+          <option value="en">EN</option>
+          <option value="zh">中文</option>
+          <option value="fr">FR</option>
+          <option value="es">ES</option>
+        </select>
+
+        <button class="btn" id="connectBtn" title="Connect Wallet" aria-live="polite">Connect</button>
+      </div>
+
+      <button class="nav-toggle" id="navToggle" aria-controls="nav" aria-expanded="false" aria-label="Meniu">
+        ☰
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <h1 data-i18n="hero.title">DRACULA</h1>
+          <p class="lead" data-i18n="hero.lead">Un token fair-launch pentru o comunitate cu sânge rece — creștem împreună.</p>
+
+          <div class="hero-ctas">
+            <a class="btn btn-primary" id="dexLink" href="#" target="_blank" rel="noopener" data-i18n="hero.dexscreener">Vezi live pe DexScreener</a>
+            <button class="btn" id="copyBtn" data-address="0xf33a6cc74ddbe044b173f8f6a7591e8ae20cef88" data-i18n="hero.copy">Copiază adresa contract</button>
+            <button class="btn" id="addTokenBtn" data-i18n="hero.addtoken">Adaugă token în wallet</button>
+            <button class="btn" id="swapBtn" data-i18n="hero.swap">Cumpără pe PancakeSwap</button>
+          </div>
+
+          <p class="muted" style="margin-top:12px;" data-i18n="hero.note">
+            Actualizările de preț folosesc DexScreener / API-uri publice când sunt disponibile.
+          </p>
+        </div>
+
+        <aside class="hero-card">
+          <div class="stats-grid" id="stats">
+            <div class="stat">
+              <span class="stat-label" data-i18n="stats.price">Preț (USD)</span>
+              <span class="stat-value" id="price">$0.000002</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label" data-i18n="stats.marketcap">Market Cap</span>
+              <span class="stat-value" id="marketcap">$38K</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label" data-i18n="stats.liquidity">Lichiditate</span>
+              <span class="stat-value" id="liquidity">$85</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label" data-i18n="stats.network">Network</span>
+              <span class="stat-value" id="network">BSC</span>
+            </div>
+          </div>
+          <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:12px 0;">
+          <div>
+            <div class="mini-row"><strong data-i18n="wallet.connected">Wallet</strong><span id="walletShort" class="muted">—</span></div>
+            <div class="mini-row"><strong data-i18n="wallet.bnb">BNB</strong><span id="bnbBalance" class="muted">—</span></div>
+            <div class="mini-row"><strong data-i18n="wallet.token">DRAC</strong><span id="tokenBalance" class="muted">—</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="about" class="container section">
+      <h2 data-i18n="about.title">Despre DRACULA</h2>
+      <p data-i18n="about.p1">
+        Din întunericul Transilvaniei — DRACULA este un token condus de comunitate, lansat corect (fair launch). Fără alocări private și fără „vampirizare” internă. Scopul: creștere organică și utilitate pe termen lung.
+      </p>
+      <p data-i18n="about.p2">Valorile noastre: transparență, comunitate, și marketing agresiv, dar onest.</p>
+    </section>
+
+    <section id="token" class="container section panel">
+      <h2 data-i18n="token.title">Informații Token</h2>
+      <dl class="token-info">
+        <div>
+          <dt data-i18n="token.token">Token</dt>
+          <dd>DRACULA</dd>
+        </div>
+        <div>
+          <dt data-i18n="token.symbol">Simbol</dt>
+          <dd>$DRAC</dd>
+        </div>
+        <div>
+          <dt data-i18n="token.totalsupply">Total Supply</dt>
+          <dd id="totalSupply">14,000,010,000</dd>
+        </div>
+        <div>
+          <dt data-i18n="token.availsupply">Available Supply</dt>
+          <dd>14,000,010,000</dd>
+        </div>
+        <div>
+          <dt data-i18n="token.contract">Contract</dt>
+          <dd><code id="contractAddr">0xf33a6cc74ddbe044b173f8f6a7591e8ae20cef88</code></dd>
+        </div>
+      </dl>
+    </section>
+
+    <section id="roadmap" class="container section">
+      <h2 data-i18n="roadmap.title">Roadmap</h2>
+      <div class="roadmap">
+        <article class="phase done">
+          <h3 data-i18n="roadmap.phase1">Faza 1 — The Awakening</h3>
+          <ul>
+            <li data-i18n="roadmap.p1.l1">Token Launch pe BSC</li>
+            <li data-i18n="roadmap.p1.l2">Construire comunitate</li>
+            <li data-i18n="roadmap.p1.l3">Lansare site</li>
+            <li data-i18n="roadmap.p1.l4">Social media</li>
+          </ul>
+        </article>
+
+        <article class="phase progress">
+          <h3 data-i18n="roadmap.phase2">Faza 2 — The Hunt Begins</h3>
+          <ul>
+            <li data-i18n="roadmap.p2.l1">Campanii marketing</li>
+            <li data-i18n="roadmap.p2.l2">Parteneriate cu influenceri</li>
+            <li data-i18n="roadmap.p2.l3">Listări CoinGecko & CMC</li>
+            <li data-i18n="roadmap.p2.l4">1,000+ holders</li>
+          </ul>
+        </article>
+
+        <article class="phase future">
+          <h3 data-i18n="roadmap.phase3">Faza 3 — Global Dominance</h3>
+          <ul>
+            <li data-i18n="roadmap.p3.l1">Listări CEX</li>
+            <li data-i18n="roadmap.p3.l2">Lansare colecție NFT</li>
+            <li data-i18n="roadmap.p3.l3">Parteneriate strategice</li>
+            <li data-i18n="roadmap.p3.l4">10,000+ holders</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="container section panel">
+      <h2 data-i18n="contact.title">Contact</h2>
+      <p data-i18n="contact.email">Pentru colaborări și PR: <a href="mailto:draculatoken@tutamail.com">draculatoken@tutamail.com</a></p>
+      <p data-i18n="contact.community">Comunitate: adaugă link către Telegram / X / Discord aici.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> DRACULA • $DRAC — <span data-i18n="footer.fair">Fair launch. Fără insideri.</span></p>
+    </div>
+  </footer>
+
+  <!-- Ethers (for wallet interactions) -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <!-- Main script -->
+  <script src="script.js" defer></script>
+</body>
+</html>
