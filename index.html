@@ -10,6 +10,34 @@
   <!-- Styles -->
   <link rel="stylesheet" href="styles.css">
 
+  <!-- Embed-specific styles (responsive iframe wrapper) -->
+  <style>
+    /* Responsive iframe wrapper for GeckoTerminal embed */
+    .gt-embed-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      background: #0b0b0d; /* dark background similar to site theme */
+      margin-top: 16px;
+    }
+    .gt-embed-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    /* Optional fixed-height variant */
+    .gt-fixed { padding-bottom: 0; height: 520px; }
+  </style>
+
   <!-- Open Graph -->
   <meta property="og:title" content="DRACULA • $DRAC">
   <meta property="og:description" content="DRACULA ($DRAC) — community-driven token pe BSC. Fair launch, no insiders.">
@@ -59,129 +87,49 @@
           <div class="hero-ctas">
             <a class="btn btn-primary" id="dexLink" href="#" target="_blank" rel="noopener" data-i18n="hero.dexscreener">Vezi live pe DexScreener</a>
             <button class="btn" id="copyBtn" data-address="0xf33a6cc74ddbe044b173f8f6a7591e8ae20cef88" data-i18n="hero.copy">Copiază adresa contract</button>
-            <button class="btn" id="addTokenBtn" data-i18n="hero.addtoken">Adaugă token în wallet</button>
-            <button class="btn" id="swapBtn" data-i18n="hero.swap">Cumpără pe PancakeSwap</button>
           </div>
-
-          <p class="muted" style="margin-top:12px;" data-i18n="hero.note">
-            Actualizările de preț folosesc DexScreener / API-uri publice când sunt disponibile.
-          </p>
         </div>
 
-        <aside class="hero-card">
-          <div class="stats-grid" id="stats">
-            <div class="stat">
-              <span class="stat-label" data-i18n="stats.price">Preț (USD)</span>
-              <span class="stat-value" id="price">$0.000002</span>
-            </div>
-            <div class="stat">
-              <span class="stat-label" data-i18n="stats.marketcap">Market Cap</span>
-              <span class="stat-value" id="marketcap">$38K</span>
-            </div>
-            <div class="stat">
-              <span class="stat-label" data-i18n="stats.liquidity">Lichiditate</span>
-              <span class="stat-value" id="liquidity">$85</span>
-            </div>
-            <div class="stat">
-              <span class="stat-label" data-i18n="stats.network">Network</span>
-              <span class="stat-value" id="network">BSC</span>
-            </div>
-          </div>
-          <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:12px 0;">
-          <div>
-            <div class="mini-row"><strong data-i18n="wallet.connected">Wallet</strong><span id="walletShort" class="muted">—</span></div>
-            <div class="mini-row"><strong data-i18n="wallet.bnb">BNB</strong><span id="bnbBalance" class="muted">—</span></div>
-            <div class="mini-row"><strong data-i18n="wallet.token">DRAC</strong><span id="tokenBalance" class="muted">—</span></div>
-          </div>
-        </aside>
+        <!-- (Poți păstra alte elemente hero aici) -->
       </div>
     </section>
 
-    <section id="about" class="container section">
-      <h2 data-i18n="about.title">Despre DRACULA</h2>
-      <p data-i18n="about.p1">
-        Din întunericul Transilvaniei — DRACULA este un token condus de comunitate, lansat corect (fair launch). Fără alocări private și fără „vampirizare” internă. Scopul: creștere organică și utilitate pe termen lung.
+    <!-- Alte secțiuni... -->
+
+    <!-- Secțiunea Statistici (include embed GeckoTerminal dark theme) -->
+    <section id="stats" class="container">
+      <h2 data-i18n="stats.title">Statistici</h2>
+
+      <p>Graficul pool-ului (GeckoTerminal) — temă închisă.</p>
+
+      <div class="gt-embed-wrapper" aria-hidden="false">
+        <iframe
+          id="geckoterminal-embed"
+          title="GeckoTerminal Pool Chart (dark)"
+          src="https://www.geckoterminal.com/bsc/pools/0x0d3fadb771feace10ccecf5ce4569a7939d969b3?embed=1&light_chart=0&info=0&swaps=1"
+          allow="clipboard-write"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer"
+        ></iframe>
+      </div>
+
+      <p style="margin-top:12px; color:#bbb; font-size:0.95rem;">
+        Dacă iframe nu se încarcă, accesează direct <a href="https://www.geckoterminal.com/bsc/pools/0x0d3fadb771feace10ccecf5ce4569a7939d969b3" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline">pagina pool pe GeckoTerminal</a>.
       </p>
-      <p data-i18n="about.p2">Valorile noastre: transparență, comunitate, și marketing agresiv, dar onest.</p>
     </section>
 
-    <section id="token" class="container section panel">
-      <h2 data-i18n="token.title">Informații Token</h2>
-      <dl class="token-info">
-        <div>
-          <dt data-i18n="token.token">Token</dt>
-          <dd>DRACULA</dd>
-        </div>
-        <div>
-          <dt data-i18n="token.symbol">Simbol</dt>
-          <dd>$DRAC</dd>
-        </div>
-        <div>
-          <dt data-i18n="token.totalsupply">Total Supply</dt>
-          <dd id="totalSupply">14,000,010,000</dd>
-        </div>
-        <div>
-          <dt data-i18n="token.availsupply">Available Supply</dt>
-          <dd>14,000,010,000</dd>
-        </div>
-        <div>
-          <dt data-i18n="token.contract">Contract</dt>
-          <dd><code id="contractAddr">0xf33a6cc74ddbe044b173f8f6a7591e8ae20cef88</code></dd>
-        </div>
-      </dl>
-    </section>
-
-    <section id="roadmap" class="container section">
-      <h2 data-i18n="roadmap.title">Roadmap</h2>
-      <div class="roadmap">
-        <article class="phase done">
-          <h3 data-i18n="roadmap.phase1">Faza 1 — The Awakening</h3>
-          <ul>
-            <li data-i18n="roadmap.p1.l1">Token Launch pe BSC</li>
-            <li data-i18n="roadmap.p1.l2">Construire comunitate</li>
-            <li data-i18n="roadmap.p1.l3">Lansare site</li>
-            <li data-i18n="roadmap.p1.l4">Social media</li>
-          </ul>
-        </article>
-
-        <article class="phase progress">
-          <h3 data-i18n="roadmap.phase2">Faza 2 — The Hunt Begins</h3>
-          <ul>
-            <li data-i18n="roadmap.p2.l1">Campanii marketing</li>
-            <li data-i18n="roadmap.p2.l2">Parteneriate cu influenceri</li>
-            <li data-i18n="roadmap.p2.l3">Listări CoinGecko & CMC</li>
-            <li data-i18n="roadmap.p2.l4">1,000+ holders</li>
-          </ul>
-        </article>
-
-        <article class="phase future">
-          <h3 data-i18n="roadmap.phase3">Faza 3 — Global Dominance</h3>
-          <ul>
-            <li data-i18n="roadmap.p3.l1">Listări CEX</li>
-            <li data-i18n="roadmap.p3.l2">Lansare colecție NFT</li>
-            <li data-i18n="roadmap.p3.l3">Parteneriate strategice</li>
-            <li data-i18n="roadmap.p3.l4">10,000+ holders</li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <section id="contact" class="container section panel">
-      <h2 data-i18n="contact.title">Contact</h2>
-      <p data-i18n="contact.email">Pentru colaborări și PR: <a href="mailto:draculatoken@tutamail.com">draculatoken@tutamail.com</a></p>
-      <p data-i18n="contact.community">Comunitate: adaugă link către Telegram / X / Discord aici.</p>
-    </section>
+    <!-- Continuarea paginii (token, roadmap etc.) -->
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>© <span id="year"></span> DRACULA • $DRAC — <span data-i18n="footer.fair">Fair launch. Fără insideri.</span></p>
+      <p>© DRACULA • $DRAC — Built by community</p>
     </div>
   </footer>
 
-  <!-- Ethers (for wallet interactions) -->
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-  <!-- Main script -->
-  <script src="script.js" defer></script>
+  <noscript>
+    <p>Activează JavaScript sau accesează direct <a href="https://www.geckoterminal.com/bsc/pools/0x0d3fadb771feace10ccecf5ce4569a7939d969b3" target="_blank" rel="noopener">pagina pool pe GeckoTerminal</a>.</p>
+  </noscript>
 </body>
 </html>
