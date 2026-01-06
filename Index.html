@@ -1,266 +1,187 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>DRACULA • $DRAC</title>
-  <style>
-    :root {
-      --bg: #0d0d0d;
-      --text: #e0e0e0;
-      --red: #c41e3a;
-      --accent: #8b0000;
-    }
+  <meta name="description" content="DRACULA ($DRAC) — community-driven token pe BSC. Fair launch, no insiders.">
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
 
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      padding: 20px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    h1, h2, h3 {
-      color: var(--red);
-      margin: 1.2em 0 0.6em;
-    }
-
-    .logo-line {
-      text-align: center;
-      margin: 40px 0 60px;
-    }
-
-    .logo-line h1 {
-      font-size: 3.8rem;
-      letter-spacing: 4px;
-      margin-bottom: 8px;
-    }
-
-    .tagline {
-      font-size: 1.25rem;
-      text-align: center;
-      margin: 20px 0 40px;
-      color: #bbb;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 20px;
-      margin: 40px 0;
-      text-align: center;
-    }
-
-    .stat-card {
-      background: #111;
-      padding: 20px;
-      border-radius: 12px;
-      border: 1px solid #222;
-    }
-
-    .stat-card strong {
-      display: block;
-      color: var(--red);
-      font-size: 0.95rem;
-      margin-bottom: 8px;
-    }
-
-    .stat-card span {
-      font-size: 1.4rem;
-      font-weight: bold;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 30px 0;
-      background: #111;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    td {
-      padding: 14px 16px;
-      border-bottom: 1px solid #222;
-    }
-
-    td:first-child {
-      color: var(--red);
-      font-weight: 600;
-      width: 35%;
-    }
-
-    code {
-      background: #1a1a1a;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-family: 'Courier New', monospace;
-      color: #ddd;
-    }
-
-    .roadmap-phase {
-      margin: 40px 0;
-      padding: 20px;
-      border-left: 4px solid var(--accent);
-      background: #111;
-      border-radius: 8px;
-    }
-
-    .phase-title {
-      color: var(--red);
-      margin-bottom: 16px;
-    }
-
-    .completed   { border-left-color: #2e7d32; }
-    .in-progress { border-left-color: #f57c00; }
-    .upcoming    { border-left-color: #1976d2; }
-    .future      { border-left-color: #6a1b9a; }
-
-    ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    ul li {
-      margin: 10px 0;
-      position: relative;
-      padding-left: 24px;
-    }
-
-    ul li::before {
-      content: "🩸";
-      position: absolute;
-      left: 0;
-      color: var(--red);
-    }
-
-    .footer {
-      margin-top: 60px;
-      text-align: center;
-      color: #777;
-      font-size: 0.95rem;
-    }
-
-    a {
-      color: var(--red);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 600px) {
-      .logo-line h1 { font-size: 2.8rem; }
-      .stats { grid-template-columns: 1fr; }
-    }
-  </style>
+  <!-- Open Graph -->
+  <meta property="og:title" content="DRACULA • $DRAC">
+  <meta property="og:description" content="DRACULA ($DRAC) — community-driven token pe BSC. Fair launch, no insiders.">
+  <meta property="og:image" content="logo.svg">
 </head>
 <body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img src="logo.svg" alt="DRACULA logo" class="logo" />
+        <span class="brand-name">DRACULA<span class="symbol"> • $DRAC</span></span>
+      </a>
 
-  <div class="logo-line">
-    <h1>DRACULA</h1>
-    <p style="font-size: 2rem; color: var(--red);">$DRAC</p>
-  </div>
+      <nav class="nav" id="nav">
+        <a href="#about" data-i18n="nav.about">Despre</a>
+        <a href="#token" data-i18n="nav.token">Token</a>
+        <a href="#roadmap" data-i18n="nav.roadmap">Roadmap</a>
+        <a href="#stats" data-i18n="nav.stats">Statistici</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
+      </nav>
 
-  <p class="tagline">
-    There is no website yet, but there is a token for a fair community – let's suck the altcoin blood together 🧛‍♂️🌕
-  </p>
+      <div class="header-actions">
+        <select id="langSelect" aria-label="Language selector">
+          <option value="ro">RO</option>
+          <option value="en">EN</option>
+          <option value="zh">中文</option>
+          <option value="fr">FR</option>
+          <option value="es">ES</option>
+        </select>
 
-  <p style="text-align:center; margin-bottom: 50px;">
-    <a href="https://dexscreener.com/bsc/0x0d3fadb771feace10ccecf5ce4569a7939d969b3" target="_blank">
-      → Vezi date live pe DexScreener
-    </a>
-  </p>
+        <button class="btn" id="connectBtn" title="Connect Wallet" aria-live="polite">Connect</button>
+      </div>
 
-  <div class="stats">
-    <div class="stat-card">
-      <strong>Price USD</strong>
-      <span>$0.000002</span>
+      <button class="nav-toggle" id="navToggle" aria-controls="nav" aria-expanded="false" aria-label="Meniu">
+        ☰
+      </button>
     </div>
-    <div class="stat-card">
-      <strong>Market Cap</strong>
-      <span>$38K</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <h1 data-i18n="hero.title">DRACULA</h1>
+          <p class="lead" data-i18n="hero.lead">Un token fair-launch pentru o comunitate cu sânge rece — creștem împreună.</p>
+
+          <div class="hero-ctas">
+            <a class="btn btn-primary" id="dexLink" href="#" target="_blank" rel="noopener" data-i18n="hero.dexscreener">Vezi live pe DexScreener</a>
+            <button class="btn" id="copyBtn" data-address="0xf33a6cc74ddbe044b173f8f6a7591e8ae20cef88" data-i18n="hero.copy">Copiază adresa contract</button>
+            <button class="btn" id="addTokenBtn" data-i18n="hero.addtoken">Adaugă token în wallet</button>
+            <button class="btn" id="swapBtn" data-i18n="hero.swap">Cumpără pe PancakeSwap</button>
+          </div>
+
+          <p class="muted" style="margin-top:12px;" data-i18n="hero.note">
+            Actualizările de preț folosesc DexScreener / API-uri publice când sunt disponibile.
+          </p>
+        </div>
+
+        <aside class="hero-card">
+          <div class="stats-grid" id="stats">
+            <div class="stat">
+              <span class="stat-label" data-i18n="stats.price">Preț (USD)</span>
+              <span class="stat-value" id="price">$0.000002</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label" data-i18n="stats.marketcap">Market Cap</span>
+              <span class="stat-value" id="marketcap">$38K</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label" data-i18n="stats.liquidity">Lichiditate</span>
+              <span class="stat-value" id="liquidity">$85</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label" data-i18n="stats.network">Network</span>
+              <span class="stat-value" id="network">BSC</span>
+            </div>
+          </div>
+          <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:12px 0;">
+          <div>
+            <div class="mini-row"><strong data-i18n="wallet.connected">Wallet</strong><span id="walletShort" class="muted">—</span></div>
+            <div class="mini-row"><strong data-i18n="wallet.bnb">BNB</strong><span id="bnbBalance" class="muted">—</span></div>
+            <div class="mini-row"><strong data-i18n="wallet.token">DRAC</strong><span id="tokenBalance" class="muted">—</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="about" class="container section">
+      <h2 data-i18n="about.title">Despre DRACULA</h2>
+      <p data-i18n="about.p1">
+        Din întunericul Transilvaniei — DRACULA este un token condus de comunitate, lansat corect (fair launch). Fără alocări private și fără „vampirizare” internă. Scopul: creștere organică și utilitate pe termen lung.
+      </p>
+      <p data-i18n="about.p2">Valorile noastre: transparență, comunitate, și marketing agresiv, dar onest.</p>
+    </section>
+
+    <section id="token" class="container section panel">
+      <h2 data-i18n="token.title">Informații Token</h2>
+      <dl class="token-info">
+        <div>
+          <dt data-i18n="token.token">Token</dt>
+          <dd>DRACULA</dd>
+        </div>
+        <div>
+          <dt data-i18n="token.symbol">Simbol</dt>
+          <dd>$DRAC</dd>
+        </div>
+        <div>
+          <dt data-i18n="token.totalsupply">Total Supply</dt>
+          <dd id="totalSupply">14,000,010,000</dd>
+        </div>
+        <div>
+          <dt data-i18n="token.availsupply">Available Supply</dt>
+          <dd>14,000,010,000</dd>
+        </div>
+        <div>
+          <dt data-i18n="token.contract">Contract</dt>
+          <dd><code id="contractAddr">0xf33a6cc74ddbe044b173f8f6a7591e8ae20cef88</code></dd>
+        </div>
+      </dl>
+    </section>
+
+    <section id="roadmap" class="container section">
+      <h2 data-i18n="roadmap.title">Roadmap</h2>
+      <div class="roadmap">
+        <article class="phase done">
+          <h3 data-i18n="roadmap.phase1">Faza 1 — The Awakening</h3>
+          <ul>
+            <li data-i18n="roadmap.p1.l1">Token Launch pe BSC</li>
+            <li data-i18n="roadmap.p1.l2">Construire comunitate</li>
+            <li data-i18n="roadmap.p1.l3">Lansare site</li>
+            <li data-i18n="roadmap.p1.l4">Social media</li>
+          </ul>
+        </article>
+
+        <article class="phase progress">
+          <h3 data-i18n="roadmap.phase2">Faza 2 — The Hunt Begins</h3>
+          <ul>
+            <li data-i18n="roadmap.p2.l1">Campanii marketing</li>
+            <li data-i18n="roadmap.p2.l2">Parteneriate cu influenceri</li>
+            <li data-i18n="roadmap.p2.l3">Listări CoinGecko & CMC</li>
+            <li data-i18n="roadmap.p2.l4">1,000+ holders</li>
+          </ul>
+        </article>
+
+        <article class="phase future">
+          <h3 data-i18n="roadmap.phase3">Faza 3 — Global Dominance</h3>
+          <ul>
+            <li data-i18n="roadmap.p3.l1">Listări CEX</li>
+            <li data-i18n="roadmap.p3.l2">Lansare colecție NFT</li>
+            <li data-i18n="roadmap.p3.l3">Parteneriate strategice</li>
+            <li data-i18n="roadmap.p3.l4">10,000+ holders</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="container section panel">
+      <h2 data-i18n="contact.title">Contact</h2>
+      <p data-i18n="contact.email">Pentru colaborări și PR: <a href="mailto:draculatoken@tutamail.com">draculatoken@tutamail.com</a></p>
+      <p data-i18n="contact.community">Comunitate: adaugă link către Telegram / X / Discord aici.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> DRACULA • $DRAC — <span data-i18n="footer.fair">Fair launch. Fără insideri.</span></p>
     </div>
-    <div class="stat-card">
-      <strong>Liquidity</strong>
-      <span>$85</span>
-    </div>
-    <div class="stat-card">
-      <strong>Network</strong>
-      <span>BSC</span>
-    </div>
-  </div>
+  </footer>
 
-  <h2>Token Information</h2>
-
-  <table>
-    <tr><td>Token</td><td>DRACULA</td></tr>
-    <tr><td>Symbol</td><td>$DRAC</td></tr>
-    <tr><td>Total Supply</td><td>14,000,010,000</td></tr>
-    <tr><td>Available Supply</td><td>14,000,010,000</td></tr>
-    <tr><td>Contract Address</td><td><code>0xf33a6cc74ddbe044b173f8f6a7591e8ae20cef88</code></td></tr>
-  </table>
-
-  <h2>The Legend Awakens</h2>
-  <p>
-    From the shadows of Transylvania emerges DRACULA – a community-driven token born from the desire for fair distribution and collective growth. No insider allocations. No vampire tactics against our own. Just pure, bloodthirsty ambition to dominate the altcoin realm together.
-  </p>
-
-  <h2>Roadmap</h2>
-  <p style="color:#aaa; margin-bottom:30px;">The path to eternal dominance in the crypto realm</p>
-
-  <div class="roadmap-phase completed">
-    <h3 class="phase-title">Phase 1: The Awakening</h3>
-    <ul>
-      <li>Token Launch on BSC</li>
-      <li>Community Building</li>
-      <li>Website Launch</li>
-      <li>Social Media Setup</li>
-    </ul>
-  </div>
-
-  <div class="roadmap-phase in-progress">
-    <h3 class="phase-title">Phase 2: The Hunt Begins</h3>
-    <ul>
-      <li>Marketing Campaign Launch</li>
-      <li>Influencer Partnerships</li>
-      <li>CoinGecko & CMC Listings</li>
-      <li>1,000+ Holders</li>
-    </ul>
-  </div>
-
-  <div class="roadmap-phase upcoming">
-    <h3 class="phase-title">Phase 3: Global Dominance</h3>
-    <ul>
-      <li>CEX Listings</li>
-      <li>NFT Collection Launch</li>
-      <li>Strategic Partnerships</li>
-      <li>10,000+ Holders</li>
-    </ul>
-  </div>
-
-  <div class="roadmap-phase future">
-    <h3 class="phase-title">Phase 4: Eternal Reign</h3>
-    <ul>
-      <li>DRAC Ecosystem Expansion</li>
-      <li>DeFi Integration</li>
-      <li>Cross-Chain Bridge</li>
-      <li>100,000+ Holders</li>
-    </ul>
-  </div>
-
-  <div class="footer">
-    <p>Join the Coven → <a href="mailto:draculatoken@tutamail.com">draculatoken@tutamail.com</a></p>
-  </div>
-
+  <!-- Ethers (for wallet interactions) -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <!-- Main script -->
+  <script src="script.js" defer></script>
 </body>
 </html>
