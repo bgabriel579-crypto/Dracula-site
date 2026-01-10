@@ -7,23 +7,21 @@
   <meta name="description" content="DRACULA ($DRAC) — community-driven meme coin pe BSC. Contract renunțat, 0% taxe, lichiditate blocată.">
   <link rel="icon" href="logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
   <style>
     :root{ --bg:#070709; --muted:#9aa0a6; --red:#c41e3a }
-    /* minimal overrides + curtain and bats */
     .curtain{position:fixed;inset:0;z-index:9999;display:flex;pointer-events:none}
     .curtain .panel{flex:1;height:100vh;background:linear-gradient(180deg,#070709,#0b0b0c);transition:transform 1s cubic-bezier(.2,.8,.2,1)}
     .curtain.open .panel.left{transform:translateX(-110%)}
     .curtain.open .panel.right{transform:translateX(110%)}
-
     .bats{position:fixed;inset:0;z-index:10000;pointer-events:none}
     .bat{position:absolute;font-size:40px;opacity:0;transform:translateY(40vh);animation:batFly linear infinite}
     @keyframes batFly{0%{transform:translateY(40vh) rotate(-10deg) scale(.8);opacity:0}5%{opacity:1}50%{opacity:1}100%{transform:translateY(-120vh) rotate(10deg) scale(1.05);opacity:0}}
-
-    /* small responsive fixes */
     @media (max-width:700px){ .hero-inner{grid-template-columns:1fr} .hero-side{order:-1} }
-
     .card{background:rgba(255,255,255,0.02);padding:16px;border-radius:12px;margin-bottom:12px}
-    .auditor-link{display:inline-block;padding:6px 10px;background:#fff;color:#000;border-radius:8px;text-decoration:none;font-weight:700}
+    .auditor-img{width:96px;border-radius:6px;background:#fff;padding:6px;display:block}
+    .wallet-status{display:flex;gap:12px;align-items:center}
+    .addr{font-weight:700}
   </style>
 </head>
 <body>
@@ -33,6 +31,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="#main"><img src="logo.svg" alt="DRACULA logo" class="logo" /><span class="brand-name">DRACULA<span class="symbol"> • $DRAC</span></span></a>
+
       <nav class="nav" id="nav" aria-label="Main navigation">
         <a href="#about">Despre</a>
         <a href="#token">Token</a>
@@ -41,10 +40,19 @@
         <a href="#profi">Profi</a>
         <a href="#contact">Contact</a>
       </nav>
+
       <div class="header-actions">
         <select id="langSelect" aria-label="Language selector"><option value="ro">RO</option><option value="en">EN</option></select>
-        <button class="btn" id="connectBtn" title="Connect Wallet">Connect</button>
+
+        <div class="wallet-status" id="walletStatus">
+          <button class="btn" id="connectBtn" title="Connect Wallet">Connect</button>
+          <div id="walletInfo" style="display:none">
+            <span class="addr" id="walletAddress"></span>
+            <span id="walletBalance" style="color:var(--muted);font-size:0.95rem;margin-left:8px"></span>
+          </div>
+        </div>
       </div>
+
       <button class="nav-toggle" id="navToggle" aria-controls="nav" aria-expanded="false" aria-label="Meniu">☰</button>
     </div>
   </header>
@@ -55,6 +63,7 @@
         <div class="hero-content">
           <h1>DRACULA</h1>
           <p class="lead">Un meme coin viral — comunitate, transparență și distracție.</p>
+
           <div class="hero-ctas">
             <a class="btn btn-primary" id="dexLink" href="https://dexscreener.com/bsc/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener">Vezi live pe DexScreener</a>
             <button class="btn" id="copyBtn" data-address="0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88">Copiază adresa contract</button>
@@ -127,14 +136,62 @@
   </footer>
 
   <script>
+    const DRAC_ADDRESS = '0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88';
+    const BSC_CHAIN_ID = 56;
+
     function rand(min,max){ return Math.random()*(max-min)+min; }
     function spawnBats(count=10){ const container=document.getElementById('bats'); for(let i=0;i<count;i++){ const b=document.createElement('div'); b.className='bat'; b.textContent='🦇'; const left=rand(5,95); const size=rand(20,64); b.style.left=left+'%'; b.style.fontSize=size+'px'; const dur=rand(5,12); const delay=rand(0,1.8); b.style.animationDuration=dur+'s'; b.style.animationDelay=delay+'s'; container.appendChild(b); }}
     window.addEventListener('load',()=>{ const curtain=document.getElementById('curtain'); setTimeout(()=>{ curtain.classList.add('open'); spawnBats(12); setTimeout(()=>{ curtain.remove(); },1600); },300); });
 
-    document.getElementById('copyBtn')?.addEventListener('click',function(){ const addr=this.getAttribute('data-address'); if(!addr) return; if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(addr).then(()=>{ alert('Adresa contractului a fost copiată: '+addr); }).catch(()=> prompt('Copiază manual adresa contractului:',addr)); } else prompt('Copiază manual adresa contractului:',addr); });
+    // Wallet integration using ethers.js
+    let provider, signer;
+    const connectBtn = document.getElementById('connectBtn');
+    const walletInfo = document.getElementById('walletInfo');
+    const walletAddressEl = document.getElementById('walletAddress');
+    const walletBalanceEl = document.getElementById('walletBalance');
 
+    async function checkProvider(){ if(window.ethereum){ provider = new ethers.providers.Web3Provider(window.ethereum); return true; } return false; }
+
+    async function switchToBSC(){ try{ await window.ethereum.request({ method: 'wallet_switchEthereumChain', params:[{ chainId: '0x38' }] }); return true; }catch(err){ if(err.code === 4902){ try{ await window.ethereum.request({ method:'wallet_addEthereumChain', params:[{ chainId:'0x38', chainName:'BNB Smart Chain', nativeCurrency:{ name:'BNB', symbol:'BNB', decimals:18 }, rpcUrls:['https://bsc-dataseed.binance.org/'], blockExplorerUrls:['https://bscscan.com'] }] }); return true; }catch(e){ console.error('Add chain error',e); return false; } } console.error('Switch chain error',err); return false; } }
+
+    async function getBalances(address){ try{ const bal = await provider.getBalance(address); const bnb = ethers.utils.formatEther(bal); walletBalanceEl.textContent = bnb + ' BNB';
+        // token balance
+        const erc20 = new ethers.Contract(DRAC_ADDRESS, [ 'function balanceOf(address) view returns (uint256)', 'function decimals() view returns (uint8)', 'function symbol() view returns (string)' ], provider);
+        const [raw, decimals, symbol] = await Promise.all([ erc20.balanceOf(address), erc20.decimals().catch(()=>18), erc20.symbol().catch(()=>'DRAC') ]);
+        const tokenBal = ethers.utils.formatUnits(raw, decimals);
+        walletBalanceEl.textContent += ' • ' + tokenBal + ' ' + symbol;
+    }catch(e){ console.error('getBalances error',e); walletBalanceEl.textContent = '—'; } }
+
+    async function connectWallet(){ if(!await checkProvider()){ alert('Nu a fost detectat un wallet Web3. Instalează MetaMask sau alt wallet compatibil.'); return; }
+      try{
+        await provider.send('eth_requestAccounts', []);
+        signer = provider.getSigner();
+        const address = await signer.getAddress();
+        // ensure on BSC
+        const network = await provider.getNetwork();
+        if(network.chainId !== BSC_CHAIN_ID){ const ok = await switchToBSC(); if(!ok){ alert('Te rog comută manual rețeaua la BSC (Binance Smart Chain).'); } }
+        walletAddressEl.textContent = address.slice(0,6)+'...'+address.slice(-4);
+        walletInfo.style.display = 'inline-block';
+        connectBtn.textContent = 'Deconectează';
+        await getBalances(address);
+
+        // listen for changes
+        window.ethereum.on('accountsChanged', (accounts)=>{ if(accounts.length===0){ disconnectWallet(); } else { walletAddressEl.textContent = accounts[0].slice(0,6)+'...'+accounts[0].slice(-4); getBalances(accounts[0]); } });
+        window.ethereum.on('chainChanged', (chainId)=>{ setTimeout(()=> location.reload(), 400); });
+      }catch(err){ console.error('connect error',err); alert('Eroare la conectarea portofelului: '+ (err.message || err)); }
+    }
+
+    function disconnectWallet(){ walletInfo.style.display='none'; walletAddressEl.textContent=''; walletBalanceEl.textContent=''; connectBtn.textContent='Connect'; try{ if(window.ethereum && window.ethereum.removeListener){ window.ethereum.removeListener('accountsChanged',()=>{}); window.ethereum.removeListener('chainChanged',()=>{}); } }catch(e){} }
+
+    connectBtn.addEventListener('click', async function(){ if(connectBtn.textContent === 'Connect') await connectWallet(); else disconnectWallet(); });
+
+    // copy address button
+    document.getElementById('copyBtn')?.addEventListener('click',function(){ const addr=this.getAttribute('data-address'); if(!addr) return; if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(addr).then(()=> alert('Adresa contractului a fost copiată: '+addr)).catch(()=> prompt('Copiază manual adresa contractului:',addr)); } else prompt('Copiază manual adresa contractului:',addr); });
+
+    // smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(a=>{ a.addEventListener('click',function(e){ const target=document.querySelector(this.getAttribute('href')); if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth',block:'start'}); } }); });
 
+    // mobile nav toggle
     document.getElementById('navToggle')?.addEventListener('click',function(){ const nav=document.getElementById('nav'); if(!nav) return; const shown = nav.style.display === 'flex'; nav.style.display = shown ? 'none' : 'flex'; this.setAttribute('aria-expanded', String(!shown)); });
   </script>
 </body>
