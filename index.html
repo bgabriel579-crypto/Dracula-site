@@ -4,184 +4,138 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>DRACULA • $DRAC</title>
-  <meta name="description" content="DRACULA ($DRAC) — community-driven token pe BSC. Fair launch, no insiders.">
+  <meta name="description" content="DRACULA ($DRAC) — community-driven meme coin pe BSC. Contract renunțat, 0% taxe, lichiditate blocată.">
   <link rel="icon" href="logo.svg" type="image/svg+xml">
-
-  <!-- Styles -->
   <link rel="stylesheet" href="styles.css">
+  <style>
+    :root{ --bg:#070709; --muted:#9aa0a6; --red:#c41e3a }
+    /* minimal overrides + curtain and bats */
+    .curtain{position:fixed;inset:0;z-index:9999;display:flex;pointer-events:none}
+    .curtain .panel{flex:1;height:100vh;background:linear-gradient(180deg,#070709,#0b0b0c);transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+    .curtain.open .panel.left{transform:translateX(-110%)}
+    .curtain.open .panel.right{transform:translateX(110%)}
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="DRACULA • $DRAC">
-  <meta property="og:description" content="DRACULA ($DRAC) — community-driven token pe BSC. Fair launch, no insiders.">
-  <meta property="og:image" content="logo.svg">
+    .bats{position:fixed;inset:0;z-index:10000;pointer-events:none}
+    .bat{position:absolute;font-size:40px;opacity:0;transform:translateY(40vh);animation:batFly linear infinite}
+    @keyframes batFly{0%{transform:translateY(40vh) rotate(-10deg) scale(.8);opacity:0}5%{opacity:1}50%{opacity:1}100%{transform:translateY(-120vh) rotate(10deg) scale(1.05);opacity:0}}
+
+    /* small responsive fixes */
+    @media (max-width:700px){ .hero-inner{grid-template-columns:1fr} .hero-side{order:-1} }
+
+    .card{background:rgba(255,255,255,0.02);padding:16px;border-radius:12px;margin-bottom:12px}
+    .auditor-link{display:inline-block;padding:6px 10px;background:#fff;color:#000;border-radius:8px;text-decoration:none;font-weight:700}
+  </style>
 </head>
 <body>
+  <div class="curtain" id="curtain" aria-hidden="true"><div class="panel left"></div><div class="panel right"></div></div>
+  <div class="bats" id="bats" aria-hidden="true"></div>
+
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="/">
-        <img src="logo.svg" alt="DRACULA logo" class="logo" />
-        <span class="brand-name">DRACULA<span class="symbol"> • $DRAC</span></span>
-      </a>
-
-      <nav class="nav" id="nav">
-        <a href="#about" data-i18n="nav.about">Despre</a>
-        <a href="#token" data-i18n="nav.token">Token</a>
-        <a href="#roadmap" data-i18n="nav.roadmap">Roadmap</a>
-        <a href="#stats" data-i18n="nav.stats">Statistici</a>
-        <a href="#contact" data-i18n="nav.contact">Contact</a>
+      <a class="brand" href="#main"><img src="logo.svg" alt="DRACULA logo" class="logo" /><span class="brand-name">DRACULA<span class="symbol"> • $DRAC</span></span></a>
+      <nav class="nav" id="nav" aria-label="Main navigation">
+        <a href="#about">Despre</a>
+        <a href="#token">Token</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#stats">Statistici</a>
+        <a href="#profi">Profi</a>
+        <a href="#contact">Contact</a>
       </nav>
-
       <div class="header-actions">
-        <select id="langSelect" aria-label="Language selector">
-          <option value="ro">RO</option>
-          <option value="en">EN</option>
-          <option value="zh">中文</option>
-          <option value="fr">FR</option>
-          <option value="es">ES</option>
-        </select>
-
-        <button class="btn" id="connectBtn" title="Connect Wallet" aria-live="polite">Connect</button>
+        <select id="langSelect" aria-label="Language selector"><option value="ro">RO</option><option value="en">EN</option></select>
+        <button class="btn" id="connectBtn" title="Connect Wallet">Connect</button>
       </div>
-
-      <button class="nav-toggle" id="navToggle" aria-controls="nav" aria-expanded="false" aria-label="Meniu">
-        ☰
-      </button>
+      <button class="nav-toggle" id="navToggle" aria-controls="nav" aria-expanded="false" aria-label="Meniu">☰</button>
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-inner">
+  <main id="main">
+    <section class="hero" id="about">
+      <div class="container hero-inner" style="display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start">
         <div class="hero-content">
-          <h1 data-i18n="hero.title">DRACULA</h1>
-          <p class="lead" data-i18n="hero.lead">Un token fair-launch pentru o comunitate cu sânge rece — creștem împreună.</p>
-
+          <h1>DRACULA</h1>
+          <p class="lead">Un meme coin viral — comunitate, transparență și distracție.</p>
           <div class="hero-ctas">
-            <a class="btn btn-primary" id="dexLink" href="#" target="_blank" rel="noopener" data-i18n="hero.dexscreener">Vezi live pe DexScreener</a>
-            <button class="btn" id="copyBtn" data-address="0xf33a6cc74ddbe044b173f8f6a7591e8ae20cef88" data-i18n="hero.copy">Copiază adresa contract</button>
-            <button class="btn" id="addTokenBtn" data-i18n="hero.addtoken">Adaugă token în wallet</button>
-            <button class="btn" id="swapBtn" data-i18n="hero.swap">Cumpără pe PancakeSwap</button>
+            <a class="btn btn-primary" id="dexLink" href="https://dexscreener.com/bsc/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener">Vezi live pe DexScreener</a>
+            <button class="btn" id="copyBtn" data-address="0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88">Copiază adresa contract</button>
+            <a class="btn" href="#profi">Vezi Profi</a>
           </div>
-
-          <p class="muted" style="margin-top:12px;" data-i18n="hero.note">
-            Actualizările de preț folosesc DexScreener / API-uri publice când sunt disponibile.
-          </p>
         </div>
 
-        <aside class="hero-card">
-          <div class="stats-grid" id="stats">
-            <div class="stat">
-              <span class="stat-label" data-i18n="stats.price">Preț (USD)</span>
-              <span class="stat-value" id="price">$0.000002</span>
-            </div>
-            <div class="stat">
-              <span class="stat-label" data-i18n="stats.marketcap">Market Cap</span>
-              <span class="stat-value" id="marketcap">$38K</span>
-            </div>
-            <div class="stat">
-              <span class="stat-label" data-i18n="stats.liquidity">Lichiditate</span>
-              <span class="stat-value" id="liquidity">$85</span>
-            </div>
-            <div class="stat">
-              <span class="stat-label" data-i18n="stats.network">Network</span>
-              <span class="stat-value" id="network">BSC</span>
-            </div>
-          </div>
-          <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:12px 0;">
-          <div>
-            <div class="mini-row"><strong data-i18n="wallet.connected">Wallet</strong><span id="walletShort" class="muted">—</span></div>
-            <div class="mini-row"><strong data-i18n="wallet.bnb">BNB</strong><span id="bnbBalance" class="muted">—</span></div>
-            <div class="mini-row"><strong data-i18n="wallet.token">DRAC</strong><span id="tokenBalance" class="muted">—</span></div>
+        <aside class="hero-side">
+          <div class="card">
+            <h3>Detalii token</h3>
+            <ul>
+              <li>Adresă: <code id="contractAddress">0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88</code></li>
+              <li>Taxe: <strong>0%</strong></li>
+              <li>Lichiditate: <strong>blocată</strong></li>
+              <li>Contract: <strong>renunțat</strong></li>
+            </ul>
           </div>
         </aside>
       </div>
     </section>
 
-    <section id="about" class="container section">
-      <h2 data-i18n="about.title">Despre DRACULA</h2>
-      <p data-i18n="about.p1">
-        Din întunericul Transilvaniei — DRACULA este un token condus de comunitate, lansat corect (fair launch). Fără alocări private și fără „vampirizare” internă. Scopul: creștere organică și utilitate pe termen lung.
-      </p>
-      <p data-i18n="about.p2">Valorile noastre: transparență, comunitate, și marketing agresiv, dar onest.</p>
-    </section>
+    <section id="token" class="container"><h2>Token</h2><p>Informații despre token și mecanică.</p></section>
+    <section id="roadmap" class="container"><h2>Roadmap</h2><p>Planuri și etape viitoare.</p></section>
+    <section id="stats" class="container"><h2>Statistici</h2><p>Valoare, holders, etc.</p></section>
 
-    <section id="token" class="container section panel">
-      <h2 data-i18n="token.title">Informații Token</h2>
-      <dl class="token-info">
-        <div>
-          <dt data-i18n="token.token">Token</dt>
-          <dd>DRACULA</dd>
-        </div>
-        <div>
-          <dt data-i18n="token.symbol">Simbol</dt>
-          <dd>$DRAC</dd>
-        </div>
-        <div>
-          <dt data-i18n="token.totalsupply">Total Supply</dt>
-          <dd id="totalSupply">14,000,010,000</dd>
-        </div>
-        <div>
-          <dt data-i18n="token.availsupply">Available Supply</dt>
-          <dd>14,000,010,000</dd>
-        </div>
-        <div>
-          <dt data-i18n="token.contract">Contract</dt>
-          <dd><code id="contractAddr">0xf33a6cc74ddbe044b173f8f6a7591e8ae20cef88</code></dd>
-        </div>
-      </dl>
-    </section>
+    <section id="profi" class="container" style="padding-top:28px;">
+      <h2>Profi — DRACULA 🧛</h2>
+      <p class="lead">Informații oficiale despre proiect, contract și audit.</p>
 
-    <section id="roadmap" class="container section">
-      <h2 data-i18n="roadmap.title">Roadmap</h2>
-      <div class="roadmap">
-        <article class="phase done">
-          <h3 data-i18n="roadmap.phase1">Faza 1 — The Awakening</h3>
-          <ul>
-            <li data-i18n="roadmap.p1.l1">Token Launch pe BSC</li>
-            <li data-i18n="roadmap.p1.l2">Construire comunitate</li>
-            <li data-i18n="roadmap.p1.l3">Lansare site</li>
-            <li data-i18n="roadmap.p1.l4">Social media</li>
-          </ul>
-        </article>
-
-        <article class="phase progress">
-          <h3 data-i18n="roadmap.phase2">Faza 2 — The Hunt Begins</h3>
-          <ul>
-            <li data-i18n="roadmap.p2.l1">Campanii marketing</li>
-            <li data-i18n="roadmap.p2.l2">Parteneriate cu influenceri</li>
-            <li data-i18n="roadmap.p2.l3">Listări CoinGecko & CMC</li>
-            <li data-i18n="roadmap.p2.l4">1,000+ holders</li>
-          </ul>
-        </article>
-
-        <article class="phase future">
-          <h3 data-i18n="roadmap.phase3">Faza 3 — Global Dominance</h3>
-          <ul>
-            <li data-i18n="roadmap.p3.l1">Listări CEX</li>
-            <li data-i18n="roadmap.p3.l2">Lansare colecție NFT</li>
-            <li data-i18n="roadmap.p3.l3">Parteneriate strategice</li>
-            <li data-i18n="roadmap.p3.l4">10,000+ holders</li>
-          </ul>
-        </article>
+      <div class="card">
+        <h3>Detalii contract</h3>
+        <ul>
+          <li>Adresă contract: <a href="https://bscscan.com/token/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener">0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88</a></li>
+          <li><strong>Contract:</strong> renunțat</li>
+          <li><strong>Taxe:</strong> 0%</li>
+          <li><strong>Lichiditate:</strong> blocată — <a href="https://flokifi.com/lock/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener">FlokiFi lock</a></li>
+        </ul>
       </div>
+
+      <div class="card">
+        <h3>Audit</h3>
+        <p>Audit efectuat de Blocksafu. Click pe buton pentru raport.</p>
+        <p><a class="auditor-link" href="https://blocksafu.com/token-scanner/56/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener">Vezi raport Blocksafu</a></p>
+      </div>
+
+      <div class="card">
+        <h3>Canale oficiale</h3>
+        <ul>
+          <li>Email: <a href="mailto:info@draculatokens.com">info@draculatokens.com</a></li>
+          <li>X: <a href="https://x.com/draculatokens?s=21" target="_blank" rel="noopener">https://x.com/draculatokens?s=21</a></li>
+          <li>Comunitate Telegram: <a href="https://t.me/draculacommunity" target="_blank" rel="noopener">https://t.me/draculacommunity</a></li>
+        </ul>
+      </div>
+
+      <p style="color:var(--muted)">Declarație oficială: contractul a fost renunțat, nu există taxe (0%), iar lichiditatea este blocată. Verificați link-urile (BscScan, FlokiFi, Blocksafu) pentru dovezi.</p>
     </section>
 
-    <section id="contact" class="container section panel">
-      <h2 data-i18n="contact.title">Contact</h2>
-      <p data-i18n="contact.email">Pentru colaborări și PR: <a href="mailto:info@draculatokens.com">info@draculatokens.com</a></p>
-      <p data-i18n="contact.community">Comunitate: https://x.com/draculatokens</p>
-    </section>
+    <section id="contact" class="container"><h2>Contact</h2><p>Email: <a href="mailto:info@draculatokens.com">info@draculatokens.com</a></p></section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> DRACULA • $DRAC — <span data-i18n="footer.fair">Fair launch.Power.</span></p>
+  <footer class="site-footer container" role="contentinfo" style="margin-top:24px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <div>
+        <strong>DRACULA • $DRAC</strong>
+        <div style="color:var(--muted);font-size:0.95rem;margin-top:6px">Email: <a href="mailto:info@draculatokens.com">info@draculatokens.com</a> • <a href="https://x.com/draculatokens?s=21" target="_blank" rel="noopener">X</a> • <a href="https://t.me/draculacommunity" target="_blank" rel="noopener">Telegram</a></div>
+      </div>
+      <div><a class="auditor-link" href="https://blocksafu.com/token-scanner/56/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener">Blocksafu Audit</a></div>
     </div>
+    <div style="margin-top:12px;color:var(--muted);font-size:0.95rem">Contract renunțat • 0 taxe • Lichiditate blocată</div>
   </footer>
 
-  <!-- Ethers (for wallet interactions) -->
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-  <!-- Main script -->
-  <script src="script.js" defer></script>
+  <script>
+    function rand(min,max){ return Math.random()*(max-min)+min; }
+    function spawnBats(count=10){ const container=document.getElementById('bats'); for(let i=0;i<count;i++){ const b=document.createElement('div'); b.className='bat'; b.textContent='🦇'; const left=rand(5,95); const size=rand(20,64); b.style.left=left+'%'; b.style.fontSize=size+'px'; const dur=rand(5,12); const delay=rand(0,1.8); b.style.animationDuration=dur+'s'; b.style.animationDelay=delay+'s'; container.appendChild(b); }}
+    window.addEventListener('load',()=>{ const curtain=document.getElementById('curtain'); setTimeout(()=>{ curtain.classList.add('open'); spawnBats(12); setTimeout(()=>{ curtain.remove(); },1600); },300); });
+
+    document.getElementById('copyBtn')?.addEventListener('click',function(){ const addr=this.getAttribute('data-address'); if(!addr) return; if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(addr).then(()=>{ alert('Adresa contractului a fost copiată: '+addr); }).catch(()=> prompt('Copiază manual adresa contractului:',addr)); } else prompt('Copiază manual adresa contractului:',addr); });
+
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{ a.addEventListener('click',function(e){ const target=document.querySelector(this.getAttribute('href')); if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth',block:'start'}); } }); });
+
+    document.getElementById('navToggle')?.addEventListener('click',function(){ const nav=document.getElementById('nav'); if(!nav) return; const shown = nav.style.display === 'flex'; nav.style.display = shown ? 'none' : 'flex'; this.setAttribute('aria-expanded', String(!shown)); });
+  </script>
 </body>
 </html>
