@@ -33,12 +33,46 @@
   animation: buyButtonPulse 2s infinite;
   position: relative;
   z-index: 10;
+  -webkit-animation: buyButtonPulse 2s infinite;
+  -moz-animation: buyButtonPulse 2s infinite;
+  -o-animation: buyButtonPulse 2s infinite;
 }
 
 .buy-direct:hover {
   animation: none;
+  -webkit-animation: none;
+  -moz-animation: none;
+  -o-animation: none;
   transform: scale(1.1);
   box-shadow: 0 0 30px rgba(196, 30, 58, 0.8);
+}
+
+/* Mobile-specific animation fix */
+@media (max-width: 768px) {
+  .buy-direct {
+    animation: buyButtonPulse 2s infinite;
+    -webkit-animation: buyButtonPulse 2s infinite;
+    -moz-animation: buyButtonPulse 2s infinite;
+    -o-animation: buyButtonPulse 2s infinite;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  .buy-direct:hover {
+    animation: buyButtonPulse 2s infinite;
+    -webkit-animation: buyButtonPulse 2s infinite;
+    transform: scale(1.05);
+  }
+}
+
+/* iOS-specific fix */
+@supports (-webkit-touch-callout: none) {
+  .buy-direct {
+    -webkit-animation: buyButtonPulse 2s infinite;
+    animation: buyButtonPulse 2s infinite;
+  }
 }
 
 *{box-sizing:border-box}
