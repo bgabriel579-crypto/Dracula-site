@@ -3,9 +3,55 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DRACULA • $DRAC</title>
-  <meta name="description" content="DRACULA ($DRAC) — community-driven meme coin pe BSC. Contract renunțat, 0% taxe, lichiditate blocată.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; script-src 'self' https: 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' https: data:;">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+  
+  <title>DRACULA • $DRAC - Meme Coin Vampir pe BSC</title>
+  <meta name="description" content="DRACULA ($DRAC) — cel mai tare meme coin vampir pe BSC! 🧛‍♂️ 0% taxe, contract renunțat, lichiditate blocată. Alătură-te coven-ului crypto!" />
+  <meta name="keywords" content="meme coin, crypto, vampire, dracula, BSC, BNB Smart Chain, $DRAC, token, DeFi, cryptocurrency, blockchain, 0% taxe" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://draculatokens.com" />
+  <meta property="og:title" content="DRACULA • $DRAC - Meme Coin Vampir pe BSC" />
+  <meta property="og:description" content="DRACULA ($DRAC) — cel mai tare meme coin vampir pe BSC! 🧛‍♂️ 0% taxe, contract renunțat, lichiditate blocată. Alătură-te coven-ului crypto!" />
+  <meta property="og:image" content="https://draculatokens.com/logo.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://draculatokens.com" />
+  <meta property="twitter:title" content="DRACULA • $DRAC - Meme Coin Vampir pe BSC" />
+  <meta property="twitter:description" content="DRACULA ($DRAC) — cel mai tare meme coin vampir pe BSC! 🧛‍♂️ 0% taxe, contract renunțat, lichiditate blocată. Alătură-te coven-ului crypto!" />
+  <meta property="twitter:image" content="https://draculatokens.com/logo.svg" />
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Cryptocurrency",
+    "name": "DRACULA",
+    "symbol": "$DRAC",
+    "description": "DRACULA ($DRAC) — cel mai tare meme coin vampir pe BSC! 0% taxe, contract renunțat, lichiditate blocată.",
+    "blockchain": "BNB Smart Chain",
+    "contractAddress": "0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88",
+    "totalSupply": "14000010000000000000000000000000",
+    "decimals": "18",
+    "website": "https://draculatokens.com",
+    "logo": "https://draculatokens.com/logo.svg",
+    "category": "Meme Coin",
+    "features": ["0% Taxe", "Contract Renunțat", "Lichiditate Blocată", "Community Driven"],
+    "audited": true,
+    "auditProvider": "Blocksafu",
+    "auditUrl": "https://blocksafu.com/token-scanner/56/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88"
+  }
+  </script>
+  
   <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://draculatokens.com">
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
   <style>
@@ -17,6 +63,7 @@
     .bats{position:fixed;inset:0;z-index:10000;pointer-events:none}
     .bat{position:absolute;font-size:40px;opacity:0;transform:translateY(40vh);animation:batFly linear infinite}
     @keyframes batFly{0%{transform:translateY(40vh) rotate(-10deg) scale(.8);opacity:0}5%{opacity:1}50%{opacity:1}100%{transform:translateY(-120vh) rotate(10deg) scale(1.05);opacity:0}}
+    
     @media (max-width:700px){ .hero-inner{grid-template-columns:1fr} .hero-side{order:-1} }
     .card{background:rgba(255,255,255,0.02);padding:16px;border-radius:12px;margin-bottom:12px}
     .auditor-img{width:96px;border-radius:6px;background:#fff;padding:6px;display:block}
@@ -28,29 +75,60 @@
   <div class="curtain" id="curtain" aria-hidden="true"><div class="panel left"></div><div class="panel right"></div></div>
   <div class="bats" id="bats" aria-hidden="true"></div>
 
+  <!-- Price Alert Modal -->
+  <div id="priceAlertModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>🔔 Setează Alertă Preț</h3>
+        <button class="modal-close" onclick="closePriceAlert()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Vei primi o notificare când prețul $DRAC atinge valoarea setată.</p>
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" id="alertEmail" placeholder="email@exemplu.com" required>
+        </div>
+        <div class="form-group">
+          <label>Preț țintă ($):</label>
+          <input type="number" id="targetPrice" placeholder="0.00001" step="0.000001" required>
+        </div>
+        <div class="form-group">
+          <label>Tip alertă:</label>
+          <select id="alertType">
+            <option value="above">Când prețul este MAI MARE</option>
+            <option value="below">Când prețul este MAI MIC</option>
+            <option value="exact">Când prețul este EXACT</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="savePriceAlert()">💾 Salvează Alertă</button>
+        <button class="btn btn-secondary" onclick="closePriceAlert()">Anulează</button>
+      </div>
+    </div>
+  </div>
+
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="#main"><img src="logo.svg" alt="DRACULA logo" class="logo" /><span class="brand-name">DRACULA<span class="symbol"> • $DRAC</span></span></a>
 
       <nav class="nav" id="nav" aria-label="Main navigation">
-        <a href="#about">Despre</a>
-        <a href="#token">Token</a>
-        <a href="#roadmap">Roadmap</a>
-        <a href="#stats">Statistici</a>
-        <a href="#profi">Profi</a>
-        <a href="#contact">Contact</a>
+        <a href="#about" data-i18n="nav.about">Despre</a>
+        <a href="#token" data-i18n="nav.token">Token</a>
+        <a href="#roadmap" data-i18n="nav.roadmap">Roadmap</a>
+        <a href="#stats" data-i18n="nav.stats">Statistici</a>
+        <a href="#profi" data-i18n="nav.profi">Profi</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
       </nav>
 
       <div class="header-actions">
-        <select id="langSelect" aria-label="Language selector"><option value="ro">RO</option><option value="en">EN</option></select>
-
-        <div class="wallet-status" id="walletStatus">
-          <button class="btn" id="connectBtn" title="Connect Wallet">Connect</button>
-          <div id="walletInfo" style="display:none">
-            <span class="addr" id="walletAddress"></span>
-            <span id="walletBalance" style="color:var(--muted);font-size:0.95rem;margin-left:8px"></span>
-          </div>
-        </div>
+        <select id="langSelect" aria-label="Language selector">
+          <option value="ro">RO</option>
+          <option value="en">EN</option>
+          <option value="zh">中文</option>
+          <option value="fr">FR</option>
+          <option value="es">ES</option>
+        </select>
       </div>
 
       <button class="nav-toggle" id="navToggle" aria-controls="nav" aria-expanded="false" aria-label="Meniu">☰</button>
@@ -61,13 +139,14 @@
     <section class="hero" id="about">
       <div class="container hero-inner" style="display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start">
         <div class="hero-content">
-          <h1>DRACULA</h1>
-          <p class="lead">Un meme coin viral — comunitate, transparență și distracție.</p>
+          <h1 data-i18n="hero.title">DRACULA</h1>
+          <p class="lead" data-i18n="hero.lead">Un meme coin viral — comunitate, transparență și distracție.</p>
 
           <div class="hero-ctas">
-            <a class="btn btn-primary" id="dexLink" href="https://dexscreener.com/bsc/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener">Vezi live pe DexScreener</a>
-            <button class="btn" id="copyBtn" data-address="0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88">Copiază adresa contract</button>
-            <a class="btn" href="#profi">Vezi Profi</a>
+            <a class="btn btn-primary" id="dexLink" href="https://dexscreener.com/bsc/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener" data-i18n="hero.dexscreener">Vezi live pe DexScreener</a>
+            <button class="btn" id="copyBtn" data-address="0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" data-i18n="hero.copy">Copiază adresa contract</button>
+            <a class="btn btn-primary buy-direct" href="https://pancakeswap.finance/swap?outputCurrency=0xf33a6cc74ddbe044b173f8f6a7591e8ae20cef88&inputCurrency=BNB" target="_blank" rel="noopener">� Cumpără $DRAC - 1 Click</a>
+            <button class="btn btn-secondary" id="priceAlertBtn">🔔 Setează Alertă Preț</button>
           </div>
         </div>
 
@@ -85,43 +164,549 @@
       </div>
     </section>
 
-    <section id="token" class="container"><h2>Token</h2><p>Informații despre token și mecanică.</p></section>
-    <section id="roadmap" class="container"><h2>Roadmap</h2><p>Planuri și etape viitoare.</p></section>
-    <section id="stats" class="container"><h2>Statistici</h2><p>Valoare, holders, etc.</p></section>
+    <section id="about" class="container">
+      <div class="deco-image hero"></div>
+      <h2 data-i18n="about.title">Despre — DRACULA 🧛</h2>
+      <p class="lead" data-i18n="token.lead">🧛‍♂️ Dracula - Contele Vampir din Transilvania! Pe 16 decembrie 2025, cel mai faimos vampir a decis să iasă din umbră și să-și lanseze propriul token. După secole de a bea sânge nobil, Dracula a descoperit o nouă pasiune: crypto! Acum vrea să-și transforme castelul într-un centru de trading și să facă din fiecare holder un vampir de elită. Fără taxe (chiar și vampirii sunt generoși!), contract renunțat (e prea ocupat cu petrecerile de noapte), și lichiditate blocată mai sigur decât seiful castelului. Alătură-te coven-ului crypto!</p>
 
-    <section id="profi" class="container" style="padding-top:28px;">
-      <h2>Profi — DRACULA 🧛</h2>
-      <p class="lead">Informații oficiale despre proiect, contract și audit.</p>
+      <div class="token-info">
+        <div class="panel">
+          <h3 data-i18n="token.details">Detalii Token</h3>
+          <dl class="token-info">
+            <dt data-i18n="token.name">Nume</dt>
+            <dd>DRACULA</dd>
+            <dt data-i18n="token.symbol">Simbol</dt>
+            <dd>$DRAC</dd>
+            <dt data-i18n="token.totalSupply">Total Supply</dt>
+            <dd>14,000,010,000</dd>
+            <dt data-i18n="token.decimals">Decimals</dt>
+            <dd>18</dd>
+            <dt data-i18n="token.contract">Contract</dt>
+            <dd><code id="contractAddress">0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88</code></dd>
+          </dl>
+        </div>
 
-      <div class="card">
-        <h3>Detalii contract</h3>
-        <ul>
-          <li>Adresă contract: <a href="https://bscscan.com/token/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener">0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88</a></li>
-          <li><strong>Contract:</strong> renunțat</li>
-          <li><strong>Taxe:</strong> 0%</li>
-          <li><strong>Lichiditate:</strong> blocată — <a href="https://flokifi.com/lock/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener">FlokiFi lock</a></li>
-        </ul>
+        <div class="panel">
+          <h3 data-i18n="token.tokenomics">Tokenomics</h3>
+          <ul>
+            <li data-i18n="token.taxes"><strong>0% Taxe</strong> — nicio taxă la tranzacții</li>
+            <li data-i18n="token.renounced"><strong>Contract Renunțat</strong> — owner set la 0x0</li>
+            <li data-i18n="token.liquidity"><strong>Lichiditate Blocată</strong> — pe FlokiFi</li>
+            <li data-i18n="token.fair"><strong>Fair Launch</strong> — nicio alocare privată</li>
+            <li data-i18n="token.community"><strong>Community Driven</strong> — dezvoltare comunitară</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3 data-i18n="token.distribution">Distribuție</h3>
+          <div class="distribution-chart">
+            <div class="chart-item">
+              <div class="chart-bar" style="width: 10%; background: #4caf50"></div>
+              <span data-i18n="token.airdrop">Airdrop - 10%</span>
+            </div>
+            <div class="chart-item">
+              <div class="chart-bar" style="width: 7.14%; background: #2196f3"></div>
+              <span data-i18n="token.foundation">Rezerva Fundație - 7.14%</span>
+            </div>
+            <div class="chart-item">
+              <div class="chart-bar" style="width: 21.43%; background: #ff9800"></div>
+              <span data-i18n="token.locked">Blocați 2030 - 21.43%</span>
+            </div>
+            <div class="chart-item">
+              <div class="chart-bar" style="width: 1.36%; background: #9c27b0"></div>
+              <span data-i18n="token.pancake">PancakeSwap Liquidity - 1.36%</span>
+            </div>
+            <div class="chart-item">
+              <div class="chart-bar" style="width: 60.07%; background: var(--red)"></div>
+              <span data-i18n="token.public">Public/Comunitate - 60.07%</span>
+            </div>
+          </div>
+          <p style="color: var(--muted); font-size: 0.9rem; margin-top: 12px" data-i18n="token.distributionDesc">
+            Distribuție strategică pentru creștere sustenabilă: airdrop pentru adopție, rezervă pentru dezvoltare, lichiditate blocată pe termen lung.
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3 data-i18n="token.utility">Utilitate</h3>
+          <ul>
+            <li data-i18n="token.utility1">🧛 <strong>Community Token</strong> — identitate comună</li>
+            <li data-i18n="token.utility2">📈 <strong>Trading</strong> — spekulare și creștere</li>
+            <li data-i18n="token.utility3">🎮 <strong>Gaming</strong> — integrări viitoare</li>
+            <li data-i18n="token.utility4">🎨 <strong>NFTs</strong> — colecții tematice</li>
+            <li data-i18n="token.utility5">💎 <strong>Staking</strong> — recompense comunitare</li>
+          </ul>
+        </div>
+
+        <div class="panel" style="margin-top: 18px;">
+          <h3 data-i18n="token.security">Securitate</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+            <div>
+              <h4 style="color: var(--red); margin-bottom: 8px;">✅ Auditat</h4>
+              <p data-i18n="token.auditDesc">Audit complet de Blocksafu — contract verificat și sigur.</p>
+              <p><img src="assets/blocksafu-logo-new.svg" alt="Blocksafu Logo" class="auditor-img" style="margin-bottom: 8px;"></p>
+              <p><a href="https://blocksafu.com/token-scanner/56/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener" class="auditor-link" data-i18n="token.auditLink">🔍 Vezi raportul Blocksafu</a></p>
+            </div>
+            <div>
+              <h4 style="color: var(--red); margin-bottom: 8px;">🔒 Lichiditate Blocată</h4>
+              <p data-i18n="token.liquidityDesc">Lichiditatea inițială blocată pe FlokiFi pentru nelimitat.</p>
+              <p><img src="assets/flokifi-logo-new.svg" alt="FlokiFi Logo" class="auditor-img" style="margin-bottom: 8px;"></p>
+              <p><a href="https://bscscan.com/tx/0x5880ef60f6d4c30a2bd8775110c2ad77d6fbcfba3425c6a97c30304f4c074cc6" target="_blank" rel="noopener" class="auditor-link" data-i18n="token.liquidityLink">🔗 Vezi tranzacția FlokiFi</a></p>
+            </div>
+            <div>
+              <h4 style="color: var(--red); margin-bottom: 8px;">📋 Contract Renunțat</h4>
+              <p data-i18n="token.renouncedDesc">Owner address set la 0x0 — nicio posibilitate de modificare.</p>
+              <p><a href="https://bscscan.com/tx/0xd8716f4cf3b158480016281ba32ebc7d7a4d7a873f2078780da96f1030bd49b1" target="_blank" rel="noopener" class="auditor-link" data-i18n="token.renouncedLink">🔍 Vezi tranzacția de renunțare</a></p>
+            </div>
+            <div>
+              <h4 style="color: var(--red); margin-bottom: 8px;">🌐 Transparent</h4>
+              <p data-i18n="token.transparentDesc">Toate informațiile publice pe BscScan și DexScreener.</p>
+              <p><a href="https://bscscan.com/token/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener" class="auditor-link" data-i18n="token.transparentLink">🔍 Vezi tokenul $DRAC pe BscScan</a></p>
+            </div>
+          </div>
+        </div>
+    </section>
+    <section id="token" class="container">
+      <div class="deco-image token"></div>
+      <h2 data-i18n="token.title">Token — DRACULA 🧛</h2>
+      <p class="lead" data-i18n="token.lead">🧛‍♂️ Dracula - Contele Vampir din Transilvania! Pe 16 decembrie 2025, cel mai faimos vampir a decis să iasă din umbră și să-și lanseze propriul token. După secole de a bea sânge nobil, Dracula a descoperit o nouă pasiune: crypto! Acum vrea să-și transforme castelul într-un centru de trading și să facă din fiecare holder un vampir de elită. Fără taxe (chiar și vampirii sunt generoși!), contract renunțat (e prea ocupat cu petrecerile de noapte), și lichiditate blocată mai sigur decât seiful castelului. Alătură-te coven-ului crypto!</p>
+
+      <div class="token-info">
+        <div class="panel">
+          <h3 data-i18n="token.details">Detalii Token</h3>
+          <dl class="token-info">
+            <dt data-i18n="token.name">Nume</dt>
+            <dd>DRACULA</dd>
+            <dt data-i18n="token.symbol">Simbol</dt>
+            <dd>$DRAC</dd>
+            <dt data-i18n="token.totalSupply">Total Supply</dt>
+            <dd>14,000,010,000</dd>
+            <dt data-i18n="token.decimals">Decimals</dt>
+            <dd>18</dd>
+            <dt data-i18n="token.contract">Contract</dt>
+            <dd><code id="contractAddress">0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88</code></dd>
+          </dl>
+        </div>
+
+        <div class="panel">
+          <h3 data-i18n="token.tokenomics">Tokenomics</h3>
+          <ul>
+            <li data-i18n="token.taxes"><strong>0% Taxe</strong> — nicio taxă la tranzacții</li>
+            <li data-i18n="token.renounced"><strong>Contract Renunțat</strong> — owner set la 0x0</li>
+            <li data-i18n="token.liquidity"><strong>Lichiditate Blocată</strong> — pe FlokiFi</li>
+            <li data-i18n="token.fair"><strong>Fair Launch</strong> — nicio alocare privată</li>
+            <li data-i18n="token.community"><strong>Community Driven</strong> — dezvoltare comunitară</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3 data-i18n="token.distribution">Distribuție</h3>
+          <div class="distribution-chart">
+            <div class="chart-item">
+              <div class="chart-bar" style="width: 10%; background: #4caf50"></div>
+              <span data-i18n="token.airdrop">Airdrop - 10%</span>
+            </div>
+            <div class="chart-item">
+              <div class="chart-bar" style="width: 7.14%; background: #2196f3"></div>
+              <span data-i18n="token.foundation">Rezerva Fundație - 7.14%</span>
+            </div>
+            <div class="chart-item">
+              <div class="chart-bar" style="width: 21.43%; background: #ff9800"></div>
+              <span data-i18n="token.locked">Blocați 2030 - 21.43%</span>
+            </div>
+            <div class="chart-item">
+              <div class="chart-bar" style="width: 1.36%; background: #9c27b0"></div>
+              <span data-i18n="token.pancake">PancakeSwap Liquidity - 1.36%</span>
+            </div>
+            <div class="chart-item">
+              <div class="chart-bar" style="width: 60.07%; background: var(--red)"></div>
+              <span data-i18n="token.public">Public/Comunitate - 60.07%</span>
+            </div>
+          </div>
+          <p style="color: var(--muted); font-size: 0.9rem; margin-top: 12px" data-i18n="token.distributionDesc">
+            Distribuție strategică pentru creștere sustenabilă: airdrop pentru adopție, rezervă pentru dezvoltare, lichiditate blocată pe termen lung.
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3 data-i18n="token.utility">Utilitate</h3>
+          <ul>
+            <li data-i18n="token.utility1">🧛 <strong>Community Token</strong> — identitate comună</li>
+            <li data-i18n="token.utility2">📈 <strong>Trading</strong> — spekulare și creștere</li>
+            <li data-i18n="token.utility3">🎮 <strong>Gaming</strong> — integrări viitoare</li>
+            <li data-i18n="token.utility4">🎨 <strong>NFTs</strong> — colecții tematice</li>
+            <li data-i18n="token.utility5">💎 <strong>Staking</strong> — recompense comunitare</li>
+          </ul>
+        </div>
+
+        <div class="panel" style="margin-top: 18px;">
+          <h3 data-i18n="token.security">Securitate</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+            <div>
+              <h4 style="color: var(--red); margin-bottom: 8px;">✅ Auditat</h4>
+              <p data-i18n="token.auditDesc">Audit complet de Blocksafu — contract verificat și sigur.</p>
+              <p><img src="assets/blocksafu-logo-new.svg" alt="Blocksafu Logo" class="auditor-img" style="margin-bottom: 8px;"></p>
+              <p><a href="https://blocksafu.com/token-scanner/56/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener" class="auditor-link" data-i18n="token.auditLink">🔍 Vezi raportul Blocksafu</a></p>
+            </div>
+            <div>
+              <h4 style="color: var(--red); margin-bottom: 8px;">🔒 Lichiditate Blocată</h4>
+              <p data-i18n="token.liquidityDesc">Lichiditatea inițială blocată pe FlokiFi pentru nelimitat.</p>
+              <p><img src="assets/flokifi-logo-new.svg" alt="FlokiFi Logo" class="auditor-img" style="margin-bottom: 8px;"></p>
+              <p><a href="https://bscscan.com/tx/0x5880ef60f6d4c30a2bd8775110c2ad77d6fbcfba3425c6a97c30304f4c074cc6" target="_blank" rel="noopener" class="auditor-link" data-i18n="token.liquidityLink">🔗 Vezi tranzacția FlokiFi</a></p>
+            </div>
+            <div>
+              <h4 style="color: var(--red); margin-bottom: 8px;">📋 Contract Renunțat</h4>
+              <p data-i18n="token.renouncedDesc">Owner address set la 0x0 — nicio posibilitate de modificare.</p>
+              <p><a href="https://bscscan.com/tx/0xd8716f4cf3b158480016281ba32ebc7d7a4d7a873f2078780da96f1030bd49b1" target="_blank" rel="noopener" class="auditor-link" data-i18n="token.renouncedLink">🔍 Vezi tranzacția de renunțare</a></p>
+            </div>
+            <div>
+              <h4 style="color: var(--red); margin-bottom: 8px;">🌐 Transparent</h4>
+              <p data-i18n="token.transparentDesc">Toate informațiile publice pe BscScan și DexScreener.</p>
+              <p><a href="https://bscscan.com/token/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener" class="auditor-link" data-i18n="token.transparentLink">🔍 Vezi tokenul $DRAC pe BscScan</a></p>
+            </div>
+          </div>
+        </div>
+    </section>
+    <section id="roadmap" class="container">
+      <div class="deco-image roadmap"></div>
+      <h2 data-i18n="roadmap.title">Roadmap — Călătoria DRACULA 🗺️</h2>
+      <p class="lead" data-i18n="roadmap.lead">Planuri strategice și etape de dezvoltare.</p>
+
+      <div class="roadmap">
+        <div class="phase done">
+          <h3 data-i18n="roadmap.phase1">🧛 Faza 1 — Trezirea</h3>
+          <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 12px;" data-i18n="roadmap.phase1.date">Q4 2025 — Lansare și stabilire</p>
+          <ul>
+            <li data-i18n="roadmap.phase1.launch">✅ Token Launch pe BSC</li>
+            <li data-i18n="roadmap.phase1.community">✅ Construire comunitate Telegram/X</li>
+            <li data-i18n="roadmap.phase1.social">✅ Social media campaigns</li>
+            <li data-i18n="roadmap.liquidity">✅ Lichiditate adăugată PancakeSwap</li>
+            <li data-i18n="roadmap.liquidityLocked">✅ Lichiditate blocată</li>
+          </ul>
+        </div>
+
+        <div class="phase progress">
+          <h3 data-i18n="roadmap.phase2">🧛 Faza 2 — Vânătoarea Începe</h3>
+          <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 12px;" data-i18n="roadmap.phase2.date">Q1 2026 — Creștere agresivă</p>
+          <ul>
+            <li data-i18n="roadmap.phase2.website">📅 Lansare website oficial</li>
+            <li data-i18n="roadmap.phase2.audit">📅 Audit token</li>
+            <li data-i18n="roadmap.phase2.marketing">📅 Campanii marketing extinse</li>
+            <li data-i18n="roadmap.phase2.influencers">📅 Parteneriate cu influenceri</li>
+            <li data-i18n="roadmap.phase2.listings">📅 Listări CoinGecko & CMC</li>
+            <li data-i18n="roadmap.phase2.holders">📅 1,000+ holders</li>
+            <li data-i18n="roadmap.phase2.events">📅 Community events & giveaways</li>
+          </ul>
+        </div>
+
+        <div class="phase future">
+          <h3 data-i18n="roadmap.phase3">🧛 Faza 3 — Dominație Globală</h3>
+          <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 12px;" data-i18n="roadmap.phase3.date">Q2-Q3 2026 — Expansiune</p>
+          <ul>
+            <li data-i18n="roadmap.phase3.nft">🎯 Lansare NFT</li>
+            <li data-i18n="roadmap.phase3.partnerships">🎯 Parteneriate strategice</li>
+            <li data-i18n="roadmap.phase3.holders">🎯 10,000+ holders</li>
+            <li data-i18n="roadmap.phase3.staking">🎯 Staking & rewards</li>
+            <li data-i18n="roadmap.phase3.ecosystem">🎯 DRACULA ecosystem</li>
+          </ul>
+        </div>
+
+        <div class="phase future">
+          <h3 data-i18n="roadmap.phase4">🧛 Faza 4 — Nemurirea</h3>
+          <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 12px;" data-i18n="roadmap.phase4.date">Q4 2026+ — Ecosistem complet</p>
+          <ul>
+            <li data-i18n="roadmap.phase4.cex">🌟 Listare CEX</li>
+            <li data-i18n="roadmap.phase4.crosschain">🌟 Cross-chain expansion</li>
+            <li data-i18n="roadmap.phase4.metaverse">🌟 DRACULA metaverse</li>
+            <li data-i18n="roadmap.phase4.partnerships">🌟 Global partnerships</li>
+            <li data-i18n="roadmap.phase4.holders100k">🌟 100,000+ holders</li>
+            <li data-i18n="roadmap.phase4.legacy">🌟 Legacy project</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="card">
-        <h3>Audit</h3>
-        <p>Audit efectuat de Blocksafu. Click pe buton pentru raport.</p>
-        <p><a class="auditor-link" href="https://blocksafu.com/token-scanner/56/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener">Vezi raport Blocksafu</a></p>
+      <div class="panel" style="margin-top: 24px;">
+        <h3>Timeline vizual</h3>
+        <div class="timeline">
+          <div class="timeline-item completed">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h4>Q4 2025</h4>
+              <p>Lansare — Token live, lichiditate, comunitate inițială</p>
+            </div>
+          </div>
+          <div class="timeline-item current">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h4>Q1 2026</h4>
+              <p>Website & audit — marketing agresiv, influenceri</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h4>Q2-Q3 2026</h4>
+              <p>Expansiune — NFT, parteneriate, staking</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h4>Q4 2026+</h4>
+              <p>Ecosistem complet — CEX, metaverse, 100k+ holders</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="stats" class="container">
+      <div class="deco-image stats"></div>
+      <h2 data-i18n="stats.title">Statistici — Live Data 📊</h2>
+      <p class="lead" data-i18n="stats.lead">Preț și performanță în timp real.</p>
+
+      <div class="stats-grid">
+        <div class="panel">
+          <h3>Preț & Market Cap</h3>
+          <div class="mini-row">
+            <span class="stat-label">Preț USD</span>
+            <span class="stat-value" id="price">$0.000003163</span>
+          </div>
+          <div class="mini-row">
+            <span class="stat-label">Market Cap</span>
+            <span class="stat-value" id="marketcap">$44,282</span>
+          </div>
+          <div class="mini-row">
+            <span class="stat-label">Lichiditate</span>
+            <span class="stat-value" id="liquidity">$1,700</span>
+          </div>
+          <div class="mini-row">
+            <span class="stat-label">Volum 24h</span>
+            <span class="stat-value" id="volume">$18.13</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Holder Statistics</h3>
+          <div class="mini-row">
+            <span class="stat-label">Total Holders</span>
+            <span class="stat-value" id="holders">1,247</span>
+          </div>
+          <div class="mini-row">
+            <span class="stat-label">Top 10%</span>
+            <span class="stat-value" id="top10">125</span>
+          </div>
+          <div class="mini-row">
+            <span class="stat-label">Distribuție</span>
+            <span class="stat-value">Egală</span>
+          </div>
+          <div class="mini-row">
+            <span class="stat-label">Network</span>
+            <span class="stat-value">BSC</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Performance</h3>
+          <div class="mini-row">
+            <span class="stat-label">24h Change</span>
+            <span class="stat-value" id="change24h" style="color: #4caf50">+0.78%</span>
+          </div>
+          <div class="mini-row">
+            <span class="stat-label">7d Change</span>
+            <span class="stat-value" id="change7d" style="color: #f44336">-12.5%</span>
+          </div>
+          <div class="mini-row">
+            <span class="stat-label">ATH</span>
+            <span class="stat-value" id="ath">$0.0000045</span>
+          </div>
+          <div class="mini-row">
+            <span class="stat-label">From ATH</span>
+            <span class="stat-value" id="fromath" style="color: #f44336">-29.7%</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Token Supply</h3>
+          <div class="mini-row">
+            <span class="stat-label">Total Supply</span>
+            <span class="stat-value" id="totalSupply">14,000,010,000</span>
+          </div>
+          <div class="mini-row">
+            <span class="stat-label">Circulating</span>
+            <span class="stat-value" id="circulating">11,000,010,000</span>
+          </div>
+          <div class="mini-row">
+            <span class="stat-label">Burned</span>
+            <span class="stat-value">0</span>
+          </div>
+          <div class="mini-row">
+            <span class="stat-label">Mintable</span>
+            <span class="stat-value">No</span>
+          </div>
+        </div>
       </div>
 
-      <div class="card">
-        <h3>Canale oficiale</h3>
-        <ul>
-          <li>Email: <a href="mailto:info@draculatokens.com">info@draculatokens.com</a></li>
-          <li>X: <a href="https://x.com/draculatokens?s=21" target="_blank" rel="noopener">https://x.com/draculatokens?s=21</a></li>
-          <li>Comunitate Telegram: <a href="https://t.me/draculacommunity" target="_blank" rel="noopener">https://t.me/draculacommunity</a></li>
-        </ul>
+      <div class="panel" style="margin-top: 18px;">
+        <h3>Chart Preview</h3>
+        <div style="position: relative; height: 400px; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden;">
+          <iframe 
+            src="https://dexscreener.com/bsc/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88?embed=1&theme=dark&trades=0&info=0" 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+            title="DRAC Price Chart">
+          </iframe>
+        </div>
+        <div style="text-align: center; margin-top: 12px;">
+          <a href="https://dexscreener.com/bsc/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener" class="btn btn-primary">Vezi grafic complet pe DexScreener</a>
+          <p style="color: var(--muted); font-size: 0.85rem; margin-top: 8px;">
+            📈 Grafic live actualizat în timp real
+          </p>
+        </div>
       </div>
 
-      <p style="color:var(--muted)">Declarație oficială: contractul a fost renunțat, nu există taxe (0%), iar lichiditatea este blocată. Verificați link-urile (BscScan, FlokiFi, Blocksafu) pentru dovezi.</p>
+      <div class="panel" style="margin-top: 18px;">
+        <h3>Quick Actions</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+          <a href="https://pancakeswap.finance/swap?outputCurrency=0xf33a6cc74ddbe044b173f8f6a7591e8ae20cef88" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="hero.swap">🔄 Cumpără $DRAC pe PancakeSwap</a>
+          <a href="https://bscscan.com/token/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener" class="btn" data-i18n="hero.bscscan">🔍 Vezi pe BscScan</a>
+        </div>
+      </div>
     </section>
 
-    <section id="contact" class="container"><h2>Contact</h2><p>Email: <a href="mailto:info@draculatokens.com">info@draculatokens.com</a></p></section>
+    <section id="profi" class="container" style="padding-top:28px; color: white;">
+      <h2 style="color: white;" data-i18n="profi.title">Profi — DRACULA 🧛</h2>
+      <p class="lead" style="color: white;" data-i18n="profi.lead">Povestea Contelui Vampir și nașterea legendei crypto.</p>
+
+      <div class="card">
+        <h3 style="color: white; margin-bottom: 16px;" data-i18n="profi.legend.title">🌙 Legenda Reînnoită</h3>
+        <p style="color: rgba(255,255,255,0.9); line-height: 1.6;" data-i18n="profi.legend.text1">
+          În noaptea de 16 decembrie 2025, ceva magic s-a întâmplat în Carpații Transilvaniei. După secole de singurătate în castelul său, Contele Dracula a simțit cum lumea se schimbă. Vechile puteri vampirice nu mai aveau aceeași influență. O nouă forță luase naștere - crypto. Și a decis că e timpul să iasă din umbră și să-și lase o moștenire nu doar de sânge nobil, ci și de libertate financiară.
+        </p>
+        <p style="color: rgba(255,255,255,0.9); line-height: 1.6;" data-i18n="profi.legend.text2">
+          Așa s-a născut $DRAC - nu doar un token, ci o promisiune. O promisiune că oricine poate deveni "vampir de elită" în lumea crypto, indiferent de origine. Fără taxe care să sugrue, fără stăpâni care să controleze, doar comunitatea conducând destinul.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="color: white; margin-bottom: 16px;" data-i18n="profi.contract.title">📜 Contractul Vampiric</h3>
+        <p style="color: rgba(255,255,255,0.9); line-height: 1.6;" data-i18n="profi.contract.text1">
+          Ca orice vrajă puternică, contractul $DRAC a fost creat cu magie neagră - codul impenetrabil și verificat. Pe 16 decembrie 2025, la miezul nopții, Contele a renunțat la puterile sale veșnic, setând owner address la 0x0. Nimeni nu mai poate modifica token-ul, nimeni nu mai poate minte noi $DRAC. Aceasta nu este trădare, ci transformare - de la monarhie la democrație crypto.
+        </p>
+        <p style="color: rgba(255,255,255,0.9); line-height: 1.6;" data-i18n="profi.contract.text2">
+          Auditat de Blocksafu, verificat de BscScan, cu lichiditatea blocată pentru eternitate în castelul digital FlokiFi. Fiecare tranzacție este o picătură din zidul castelului, vizibilă pentru toți vampirii comunității.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="color: white; margin-bottom: 16px;" data-i18n="profi.community.title">🏰 Castelul Comunității</h3>
+        <p style="color: rgba(255,255,255,0.9); line-height: 1.6;" data-i18n="profi.community.text1">
+          Castelul Dracula nu mai este doar locuința Contelui. Acum este un centru de trading pentru întreaga comunitate. Fiecare holder devine membru al coven-ului crypto, cu acces la informații, la decizii și la profiturile generate împreună. Zidurile vechi au căzut, făcând loc pentru transparență totală și dezvoltare deschisă.
+        </p>
+        <p style="color: rgba(255,255,255,0.9); line-height: 1.6;" data-i18n="profi.community.text2">
+          Aici nu există secrete, nu există ierarhii. Doar vampiri egali care lucrează împreună pentru un scop comun: să aducă $DRAC în lumina reflectoarelor crypto. Fiecare zi, comunitatea votează, propune și construiește viitorul proiectului.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="color: white; margin-bottom: 16px;" data-i18n="profi.future.title">🦇 Zborul spre Viitor</h3>
+        <p style="color: rgba(255,255,255,0.9); line-height: 1.6;" data-i18n="profi.future.text1">
+          Vampirii nu mai sunt legați de pământ. Acum zboară liberi prin lumea digitală, ducând povestea $DRAC peste granițe și continente. Fiecare holder este un vampir ambasador, răspândind vestea despre proiect în rețelele sociale și în comunitățile crypto globale.
+        </p>
+        <p style="color: rgba(255,255,255,0.9); line-height: 1.6;" data-i18n="profi.future.text2">
+          Roadmap-ul este harta noastră spre nemurire: NFT-uri tematice, staking recompense, listări pe exchange-uri mari, metaverse propriu. Dar cea mai importantă comoară este comunitatea - mii de vampiri care cred în viziunea $DRAC și lucrează zilnic pentru a o face realitate.
+        </p>
+      </div>
+
+      <div style="margin-top: 24px; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+        <p style="text-align: center; color: rgba(255,255,255,0.8); font-style: italic; margin: 0;" data-i18n="profi.quote">
+          "Noaptea nu mai este pentru a te ascunde, ci pentru a străluci. În lumea crypto, transparența este lumina noastră, iar comunitatea este puterea noastră. Împreună, vom transforma întunericul în lumină." - Contele Dracula, 16 decembrie 2025
+        </p>
+      </div>
+
+      <div class="card" style="margin-top: 16px;">
+        <h3 style="color: white; margin-bottom: 16px;" data-i18n="profi.info.title">📜Informații Oficiale</h3>
+        <ul style="color: rgba(255,255,255,0.9); line-height: 1.6;">
+          <li data-i18n="profi.info.contract"><strong>📄 Contract:</strong> <code>0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88</code></li>
+          <li data-i18n="profi.info.security"><strong>🔒 Securitate:</strong> Auditat de Blocksafu, renunțat, lichiditate blocată</li>
+          <li data-i18n="profi.info.supply"><strong>📈 Supply:</strong> 14,000,010,000,000,000,000,000,000 $DRAC</li>
+          <li data-i18n="profi.info.distribution"><strong>📊 Distribuție:</strong> Airdrop 10% • Rezerva Fundație 7.14% • Blocați 2030 21.43% • Marketing 1.36% • Public/PancakeSwap 60.07%</li>
+          <li data-i18n="profi.info.taxes"><strong>💰 Taxe:</strong> 0% (fără taxe la tranzacții)</li>
+          <li data-i18n="profi.info.website"><strong>🌐 Website:</strong> draculatokens.com</li>
+          <li data-i18n="profi.info.community"><strong>🦇 Comunitate:</strong> t.me/draculacommunity</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact" class="container">
+      <h2 data-i18n="nav.contact">Contact</h2>
+      <div class="panel">
+        <p><strong>Email:</strong> <a href="mailto:info@draculatokens.com">info@draculatokens.com</a></p>
+        <p><strong>Developer:</strong> Gabriel Bote</p>
+        <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/feed/?trk=guest_homepage-basic_google-one-tap-submit" target="_blank" rel="noopener">🔗 Gabriel Bote - LinkedIn</a></p>
+      </div>
+    </section>
+
+    <section id="faq" class="container">
+      <h2>Întrebări Frecvente 🤔</h2>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h3>🧛 Ce este DRACULA ($DRAC)?</h3>
+          <p>DRACULA este un meme coin pe BNB Smart Chain cu tematică vampirică. Are 0% taxe, contract renunțat și lichiditate blocată pentru siguranța comunității.</p>
+        </div>
+        <div class="faq-item">
+          <h3>🔒 Este sigur să investesc?</h3>
+          <p>Da! Contractul este auditat de Blocksafu, renunțat (owner set la 0x0), iar lichiditatea este blocată pe FlokiFi pentru nelimitat.</p>
+        </div>
+        <div class="faq-item">
+          <h3>💰 Cum cumpăr $DRAC?</h3>
+          <p>Poți cumpăra $DRAC pe PancakeSwap folosind BNB. Asigură-te că setezi slippage la 12-15% și folosești contractul corect.</p>
+        </div>
+        <div class="faq-item">
+          <h3>🦇 De ce vampiri?</h3>
+          <p>Dracula este cel mai faimos vampir din Transilvania! Tematica este unică, memorabilă și creează o comunitate puternică în jurul token-ului.</p>
+        </div>
+        <div class="faq-item">
+          <h3>📈 Care sunt planurile viitoare?</h3>
+          <p>Avem roadmap complet: NFT launch, staking, listări CEX, metaverse și expansion cross-chain. Vezi secțiunea Roadmap pentru detalii.</p>
+        </div>
+        <div class="faq-item">
+          <h3>🌐 Unde găsesc mai multe informații?</h3>
+          <p>Urmărește-ne pe X (@draculatokens), intră pe Telegram (t.me/draculacommunity) și verifică auditul pe Blocksafu.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="calculator" class="container">
+      <h2>Calculator Profit 💎</h2>
+      <div class="panel">
+        <div class="calc-grid">
+          <div class="calc-input">
+            <label>Cantitate $DRAC:</label>
+            <input type="number" id="dracAmount" placeholder="1000000" step="1000000">
+          </div>
+          <div class="calc-input">
+            <label>Preț viitor ($):</label>
+            <input type="number" id="futurePrice" placeholder="0.00001" step="0.000001">
+          </div>
+          <div class="calc-input">
+            <label>Preț curent ($):</label>
+            <input type="number" id="currentPrice" value="0.000003163" readonly>
+          </div>
+        </div>
+        <div class="calc-results">
+          <div class="result-item">
+            <span>Investiție curentă:</span>
+            <span id="currentValue">$3.16</span>
+          </div>
+          <div class="result-item">
+            <span>Valoare viitoare:</span>
+            <span id="futureValue">$10.00</span>
+          </div>
+          <div class="result-item profit">
+            <span>Profit:</span>
+            <span id="profit">$6.84 (+216%)</span>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer container" role="contentinfo" style="margin-top:24px">
@@ -135,64 +720,357 @@
     <div style="margin-top:12px;color:var(--muted);font-size:0.95rem">Contract renunțat • 0 taxe • Lichiditate blocată</div>
   </footer>
 
+  <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
+  <script src="script.js"></script>
   <script>
-    const DRAC_ADDRESS = '0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88';
-    const BSC_CHAIN_ID = 56;
+    // Simple i18n fix
+    const TRANSLATIONS = {
+      ro: {
+        "nav.about":"Despre", "nav.token":"Token", "nav.roadmap":"Roadmap", "nav.stats":"Statistici", "nav.profi":"Profi", "nav.contact":"Contact",
+        "hero.title":"DRACULA", "hero.lead":"Un meme coin viral — comunitate, transparență și distracție.",
+        "hero.dexscreener":"Vezi live pe DexScreener", "hero.copy":"Copiază adresa contract", "hero.profi":"Vezi Profi", "hero.addtoken":"Adaugă token în wallet", "hero.swap":"Cumpără pe PancakeSwap", "hero.bscscan":"Vezi pe BscScan",
+        "token.title":"Token — DRACULA 🧛", "token.lead":"🧛‍♂️ Dracula - Contele Vampir din Transilvania! Pe 16 decembrie 2025, cel mai faimos vampir a decis să iasă din umbră și să-și lanseze propriul token. După secole de a bea sânge nobil, Dracula a descoperit o nouă pasiune: crypto! Acum vrea să transforme castelul într-un centru de trading și să facă din fiecare holder un vampir de elită. Fără taxe, contract renunțat și lichiditate blocată. Alătură-te coven-ului crypto!",
+        "token.details":"Detalii Token", "token.name":"Nume", "token.symbol":"Simbol", "token.totalSupply":"Total Supply", "token.decimals":"Decimals", "token.contract":"Contract",
+        "token.tokenomics":"Tokenomics", "token.taxes":"0% Taxe — nicio taxă la tranzacții", "token.renounced":"Contract Renunțat — owner set la 0x0", "token.liquidity":"Lichiditate Blocată — pe FlokiFi", "token.fair":"Fair Launch — nicio alocare privată", "token.community":"Community Driven — dezvoltare comunitară",
+        "token.distribution":"Distribuție", "token.airdrop":"Airdrop - 10%", "token.foundation":"Rezerva Fundație - 7.14%", "token.locked":"Blocați 2030 - 21.43%", "token.pancake":"PancakeSwap Liquidity - 1.36%", "token.public":"Public/Comunitate - 60.07%", "token.distributionDesc":"Distribuție strategică pentru creștere sustenabilă: airdrop pentru adopție, rezervă pentru dezvoltare, lichiditate blocată pe termen lung.",
+        "token.utility":"Utilitate", "token.utility1":"🧛 Community Token — identitate comună", "token.utility2":"📈 Trading — spekulare și creștere", "token.utility3":"🎮 Gaming — integrări viitoare", "token.utility4":"🎨 NFTs — colecții tematice", "token.utility5":"💎 Staking — recompense comunitare",
+        "token.security":"Securitate", "token.auditDesc":"Audit complet de Blocksafu — contract verificat și sigur.", "token.auditLink":"🔍 Vezi raportul Blocksafu", "token.liquidityDesc":"Lichiditatea inițială blocată pe FlokiFi pentru nelimitat.", "token.liquidityLink":"🔗 Vezi tranzacția FlokiFi", "token.renouncedDesc":"Owner address set la 0x0 — nicio posibilitate de modificare.", "token.renouncedLink":"🔍 Vezi tranzacția de renunțare", "token.transparentDesc":"Toate informațiile publice pe BscScan și DexScreener.", "token.transparentLink":"🔍 Vezi tokenul $DRAC pe BscScan",
+        "roadmap.title":"Roadmap — Călătoria DRACULA 🗺️", "roadmap.lead":"Planuri strategice și etape de dezvoltare.",
+        "roadmap.phase1":"🧛 Faza 1 — Trezirea", "roadmap.phase1.date":"Q4 2025 — Lansare și stabilire", "roadmap.phase1.launch":"✅ Token Launch pe BSC", "roadmap.phase1.community":"✅ Construire comunitate Telegram/X", "roadmap.phase1.social":"✅ Social media campaigns", "roadmap.liquidity":"✅ Lichiditate adăugată PancakeSwap", "roadmap.liquidityLocked":"✅ Lichiditate blocată",
+        "roadmap.phase2":"🧛 Faza 2 — Vânătoarea Începe", "roadmap.phase2.date":"Q1 2026 — Creștere agresivă", "roadmap.phase2.website":"📅 Lansare website oficial", "roadmap.phase2.audit":"📅 Audit token", "roadmap.phase2.marketing":"📅 Campanii marketing extinse", "roadmap.phase2.influencers":"📅 Parteneriate cu influenceri", "roadmap.phase2.listings":"📅 Listări CoinGecko & CMC", "roadmap.phase2.holders":"📅 1,000+ holders", "roadmap.phase2.events":"📅 Community events & giveaways",
+        "roadmap.phase3":"🧛 Faza 3 — Dominație Globală", "roadmap.phase3.date":"Q2-Q3 2026 — Expansiune", "roadmap.phase3.nft":"🎯 Lansare NFT", "roadmap.phase3.partnerships":"🎯 Parteneriate strategice", "roadmap.phase3.holders":"🎯 10,000+ holders", "roadmap.phase3.staking":"🎯 Staking & rewards", "roadmap.phase3.ecosystem":"🎯 DRACULA ecosystem",
+        "roadmap.phase4":"🧛 Faza 4 — Nemurirea", "roadmap.phase4.date":"Q4 2026+ — Ecosistem complet", "roadmap.phase4.cex":"🌟 Listare CEX", "roadmap.phase4.crosschain":"🌟 Cross-chain expansion", "roadmap.phase4.metaverse":"🌟 DRACULA metaverse", "roadmap.phase4.partnerships":"🌟 Global partnerships", "roadmap.phase4.holders100k":"🌟 100,000+ holders", "roadmap.phase4.legacy":"🌟 Legacy project",
+        "stats.title":"Statistici — Live Data 📊", "stats.lead":"Preț și performanță în timp real.",
+        "profi.title":"Profi — DRACULA 🧛", "profi.lead":"Povestea Contelui Vampir și nașterea legendei crypto.",
+        "profi.legend.title":"🌙 Legenda Reînnoită", "profi.legend.text1":"În noaptea de 16 decembrie 2025, ceva magic s-a întâmplat în Carpații Transilvaniei. După secole de singurătate în castelul său, Contele Dracula a simțit cum lumea se schimbă. Vechile puteri vampirice nu mai aveau aceeași influență. O nouă forță luase naștere - crypto. Și a decis că e timpul să iasă din umbră și să-și lase o moștenire nu doar de sânge nobil, ci și de libertate financiară.",
+        "profi.legend.text2":"Așa s-a născut $DRAC - nu doar un token, ci o promisiune. O promisiune că oricine poate deveni \"vampir de elită\" în lumea crypto, indiferent de origine. Fără taxe care să sugrue, fără stăpâni care să controleze, doar comunitatea conducând destinul.",
+        "profi.contract.title":"📜 Contractul Vampiric", "profi.contract.text1":"Ca orice vrajă puternică, contractul $DRAC a fost creat cu magie neagră - codul impenetrabil și verificat. Pe 16 decembrie 2025, la miezul nopții, Contele a renunțat la puterile sale veșnic, setând owner address la 0x0. Nimeni nu mai poate modifica token-ul, nimeni nu mai poate minte noi $DRAC. Aceasta nu este trădare, ci transformare - de la monarhie la democrație crypto.",
+        "profi.contract.text2":"Auditat de Blocksafu, verificat de BscScan, cu lichiditatea blocată pentru eternitate în castelul digital FlokiFi. Fiecare tranzacție este o picătură din zidul castelului, vizibilă pentru toți vampirii comunității.",
+        "profi.community.title":"🏰 Castelul Comunității", "profi.community.text1":"Castelul Dracula nu mai este doar locuința Contelui. Acum este un centru de trading pentru întreaga comunitate. Fiecare holder devine membru al coven-ului crypto, cu acces la informații, la decizii și la profiturile generate împreună. Zidurile vechi au căzut, făcând loc pentru transparență totală și dezvoltare deschisă.",
+        "profi.community.text2":"Aici nu există secrete, nu există ierarhii. Doar vampiri egali care lucrează împreună pentru un scop comun: să aducă $DRAC în lumina reflectoarelor crypto. Fiecare zi, comunitatea votează, propune și construiește viitorul proiectului.",
+        "profi.future.title":"🦇 Zborul spre Viitor", "profi.future.text1":"Vampirii nu mai sunt legați de pământ. Acum zboară liberi prin lumea digitală, ducând povestea $DRAC peste granițe și continente. Fiecare holder este un vampir ambasador, răspândind vestea despre proiect în rețelele sociale și în comunitățile crypto globale.",
+        "profi.future.text2":"Roadmap-ul este harta noastră spre nemurire: NFT-uri tematice, staking recompense, listări pe exchange-uri mari, metaverse propriu. Dar cea mai importantă comoară este comunitatea - mii de vampiri care cred în viziunea $DRAC și lucrează zilnic pentru a o face realitate.",
+        "profi.quote":"\"Noaptea nu mai este pentru a te ascunde, ci pentru a străluci. În lumea crypto, transparența este lumina noastră, iar comunitatea este puterea noastră. Împreună, vom transforma întunericul în lumină.\" - Contele Dracula, 16 decembrie 2025",
+        "profi.info.title":"📜Informații Oficiale", "profi.info.contract":"📄 Contract: 0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88", "profi.info.security":"🔒 Securitate: Auditat de Blocksafu, renunțat, lichiditate blocată", "profi.info.supply":"📈 Supply: 14,000,010,000,000,000,000,000,000 $DRAC", "profi.info.distribution":"📊 Distribuție: Airdrop 10% • Rezerva Fundație 7.14% • Blocați 2030 21.43% • Marketing 1.36% • Public/PancakeSwap 60.07%", "profi.info.taxes":"💰 Taxe: 0% (fără taxe la tranzacții)", "profi.info.website":"🌐 Website: draculatokens.com", "profi.info.community":"🦇 Comunitate: t.me/draculacommunity"
+      },
+      en: {
+        "nav.about":"About", "nav.token":"Token", "nav.roadmap":"Roadmap", "nav.stats":"Stats", "nav.profi":"Profi", "nav.contact":"Contact",
+        "hero.title":"DRACULA", "hero.lead":"A viral meme coin — community, transparency and fun.",
+        "hero.dexscreener":"View live on DexScreener", "hero.copy":"Copy contract address", "hero.profi":"View Profi", "hero.addtoken":"Add token to wallet", "hero.swap":"Buy on PancakeSwap", "hero.bscscan":"View on BscScan",
+        "token.title":"Token — DRACULA 🧛", "token.lead":"🧛‍♂️ Dracula - The Vampire Count from Transylvania! On December 16, 2025, the most famous vampire decided to emerge from the shadows and launch his own token. After centuries of drinking noble blood, Dracula discovered a new passion: crypto! Now he wants to transform his castle into a trading hub and make every holder an elite vampire. No taxes, renounced contract and liquidity locked. Join the crypto coven!",
+        "token.details":"Token Details", "token.name":"Name", "token.symbol":"Symbol", "token.totalSupply":"Total Supply", "token.decimals":"Decimals", "token.contract":"Contract",
+        "token.tokenomics":"Tokenomics", "token.taxes":"0% Taxes — no transaction fees", "token.renounced":"Contract Renounced — owner set to 0x0", "token.liquidity":"Liquidity Locked — on FlokiFi", "token.fair":"Fair Launch — no private allocation", "token.community":"Community Driven — community development",
+        "token.distribution":"Distribution", "token.airdrop":"Airdrop - 10%", "token.foundation":"Foundation Reserve - 7.14%", "token.locked":"Locked 2030 - 21.43%", "token.pancake":"PancakeSwap Liquidity - 1.36%", "token.public":"Public/Community - 60.07%", "token.distributionDesc":"Strategic distribution for sustainable growth: airdrop for adoption, reserve for development, liquidity locked long term.",
+        "token.utility":"Utility", "token.utility1":"🧛 Community Token — shared identity", "token.utility2":"📈 Trading — speculation and growth", "token.utility3":"🎮 Gaming — future integrations", "token.utility4":"🎨 NFTs — themed collections", "token.utility5":"💎 Staking — community rewards",
+        "token.security":"Security", "token.auditDesc":"Full audit by Blocksafu — verified and secure contract.", "token.auditLink":"🔍 View Blocksafu report", "token.liquidityDesc":"Initial liquidity locked on FlokiFi for unlimited.", "token.liquidityLink":"🔗 View FlokiFi transaction", "token.renouncedDesc":"Owner address set to 0x0 — no modification possible.", "token.renouncedLink":"🔍 View renouncement transaction", "token.transparentDesc":"All information public on BscScan and DexScreener.", "token.transparentLink":"🔍 View $DRAC token on BscScan",
+        "roadmap.title":"Roadmap — DRACULA's Journey 🗺️", "roadmap.lead":"Strategic plans and development phases.",
+        "roadmap.phase1":"🧛 Phase 1 — The Awakening", "roadmap.phase1.date":"Q4 2025 — Launch & Foundation", "roadmap.phase1.launch":"✅ Token Launch on BSC", "roadmap.phase1.community":"✅ Build Telegram/X Community", "roadmap.phase1.social":"✅ Social Media Campaigns", "roadmap.liquidity":"✅ Liquidity Added PancakeSwap", "roadmap.liquidityLocked":"✅ Liquidity Locked",
+        "roadmap.phase2":"🧛 Phase 2 — The Hunt Begins", "roadmap.phase2.date":"Q1 2026 — Aggressive Growth", "roadmap.phase2.website":"📅 Official Website Launch", "roadmap.phase2.audit":"📅 Token Audit", "roadmap.phase2.marketing":"📅 Extended Marketing Campaigns", "roadmap.phase2.influencers":"📅 Influencer Partnerships", "roadmap.phase2.listings":"📅 CoinGecko & CMC Listings", "roadmap.phase2.holders":"📅 1,000+ holders", "roadmap.phase2.events":"📅 Community Events & Giveaways",
+        "roadmap.phase3":"🧛 Phase 3 — Global Domination", "roadmap.phase3.date":"Q2-Q3 2026 — Expansion", "roadmap.phase3.nft":"🎯 NFT Launch", "roadmap.phase3.partnerships":"🎯 Strategic Partnerships", "roadmap.phase3.holders":"🎯 10,000+ holders", "roadmap.phase3.staking":"🎯 Staking & Rewards", "roadmap.phase3.ecosystem":"🎯 DRACULA Ecosystem",
+        "roadmap.phase4":"🧛 Phase 4 — Immortality", "roadmap.phase4.date":"Q4 2026+ — Complete Ecosystem", "roadmap.phase4.cex":"🌟 CEX Listing", "roadmap.phase4.crosschain":"🌟 Cross-chain Expansion", "roadmap.phase4.metaverse":"🌟 DRACULA Metaverse", "roadmap.phase4.partnerships":"🌟 Global Partnerships", "roadmap.phase4.holders100k":"🌟 100,000+ holders", "roadmap.phase4.legacy":"🌟 Legacy Project",
+        "stats.title":"Stats — Live Data 📊", "stats.lead":"Real-time price and performance.",
+        "profi.title":"Profi — DRACULA 🧛", "profi.lead":"The Vampire Count's story and the birth of the crypto legend.",
+        "profi.legend.title":"🌙 The Renewed Legend", "profi.legend.text1":"On the night of December 16, 2025, something magical happened in the Carpathian Mountains. After centuries of solitude in his castle, Count Dracula felt the world changing. The old vampire powers no longer held the same influence. A new force had emerged - crypto. And he decided it was time to emerge from the shadows and leave a legacy not just of noble blood, but of financial freedom.",
+        "profi.legend.text2":"Thus $DRAC was born - not just a token, but a promise. A promise that anyone can become an \"elite vampire\" in the crypto world, regardless of origin. Without fees that drain, without masters who control, only the community leading the destiny.",
+        "profi.contract.title":"📜 The Vampiric Contract", "profi.contract.text1":"Like any powerful spell, the $DRAC contract was created with black magic - impenetrable and verified code. On December 16, 2025, at midnight, the Count renounced his powers forever, setting the owner address to 0x0. No one can modify the token anymore, no one can mint new $DRAC. This is not betrayal, but transformation - from monarchy to crypto democracy.",
+        "profi.contract.text2":"Audited by Blocksafu, verified by BscScan, with liquidity locked for eternity in the digital FlokiFi castle. Every transaction is a drop in the castle wall, visible to all community vampires.",
+        "profi.community.title":"🏰 The Community Castle", "profi.community.text1":"Dracula's castle is no longer just the Count's residence. Now it is a trading center for the entire community. Every holder becomes a member of the crypto coven, with access to information, decisions, and profits generated together. The old walls have fallen, making room for total transparency and open development.",
+        "profi.community.text2":"Here there are no secrets, no hierarchies. Only equal vampires working together for a common goal: to bring $DRAC into the crypto spotlight. Every day, the community votes, proposes, and builds the project's future.",
+        "profi.future.title":"🦇 Flight to the Future", "profi.future.text1":"Vampires are no longer bound to the earth. Now they fly free through the digital world, carrying the story of $DRAC across borders and continents. Every holder is a vampire ambassador, spreading the news about the project on social media and in global crypto communities.",
+        "profi.future.text2":"The roadmap is our map to immortality: themed NFTs, staking rewards, listings on major exchanges, our own metaverse. But the most important treasure is the community - thousands of vampires who believe in the $DRAC vision and work daily to make it reality.",
+        "profi.quote":"\"The night is no longer for hiding, but for shining. In the crypto world, transparency is our light, and community is our power. Together, we will transform darkness into light.\" - Count Dracula, December 16, 2025",
+        "profi.info.title":"📜Official Information", "profi.info.contract":"📄 Contract: 0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88", "profi.info.security":"🔒 Security: Audited by Blocksafu, renounced, liquidity locked", "profi.info.supply":"📈 Supply: 14,000,010,000,000,000,000,000,000 $DRAC", "profi.info.distribution":"📊 Distribution: Airdrop 10% • Foundation Reserve 7.14% • Locked 2030 21.43% • Marketing 1.36% • Public/PancakeSwap 60.07%", "profi.info.taxes":"💰 Taxes: 0% (no transaction fees)", "profi.info.website":"🌐 Website: draculatokens.com", "profi.info.community":"🦇 Community: t.me/draculacommunity"
+      },
+      zh: {
+        "nav.about":"关于", "nav.token":"代币", "nav.roadmap":"路线图", "nav.stats":"统计", "nav.profi":"Profi", "nav.contact":"联系",
+        "hero.title":"德古拉", "hero.lead":"一个病毒式迷因币 — 社区、透明和乐趣。",
+        "hero.dexscreener":"在 DexScreener 实时查看", "hero.copy":"复制合约地址", "hero.profi":"查看 Profi", "hero.addtoken":"添加代币到钱包", "hero.swap":"在 PancakeSwap 购买", "hero.bscscan":"在 BscScan 查看",
+        "token.title":"代币 — 德古拉 🧛", "token.lead":"🧛‍♂️ 德古拉 - 特兰西瓦尼亚的吸血鬼伯爵！2025年12月16日，最著名的吸血鬼决定从阴影中出现并推出自己的代币。几个世纪以来饮用贵族血液后，德古拉发现了新的热情：加密货币！现在他想把城堡变成交易中心，让每个持有者都成为精英吸血鬼。无税，合约已放弃，流动性已锁定。加入加密巫师团！",
+        "token.details":"代币详情", "token.name":"名称", "token.symbol":"符号", "token.totalSupply":"总供应量", "token.decimals":"小数位数", "token.contract":"合约",
+        "token.tokenomics":"代币经济学", "token.taxes":"0% 税费 — 无交易费用", "token.renounced":"合约已放弃 — 所有者设置为 0x0", "token.liquidity":"流动性锁定 — 在 FlokiFi", "token.fair":"公平发行 — 无私人分配", "token.community":"社区驱动 — 社区发展",
+        "token.distribution":"分配", "token.airdrop":"空投 - 10%", "token.foundation":"基金会储备 - 7.14%", "token.locked":"锁定2030年 - 21.43%", "token.pancake":"PancakeSwap 流动性 - 1.36%", "token.public":"公开/社区 - 60.07%", "token.distributionDesc":"可持续增长的战略分配：空投用于采用，储备用于开发，流动性长期锁定。",
+        "token.utility":"实用性", "token.utility1":"🧛 社区代币 — 共同身份", "token.utility2":"📈 交易 — 投机和增长", "token.utility3":"🎮 游戏 — 未来集成", "token.utility4":"🎨 NFT — 主题收藏品", "token.utility5":"💎 质押 — 社区奖励",
+        "token.security":"安全性", "token.auditDesc":"Blocksafu 完整审计 — 经过验证和安全的合约。", "token.auditLink":"🔍 查看 Blocksafu 报告", "token.liquidityDesc":"初始流动性在 FlokiFi 上无限期锁定。", "token.liquidityLink":"🔗 查看 FlokiFi 交易", "token.renouncedDesc":"所有者地址设置为 0x0 — 无法修改。", "token.renouncedLink":"🔍 查看放弃交易", "token.transparentDesc":"所有信息在 BscScan 和 DexScreener 上公开。", "token.transparentLink":"🔍 在 BscScan 上查看 $DRAC 代币",
+        "roadmap.title":"路线图 — 德古拉之旅 🗺️", "roadmap.lead":"战略计划和开发阶段。",
+        "roadmap.phase1":"🧛 第一阶段 — 苏醒", "roadmap.phase1.date":"2025年第四季度 — 启动与基础", "roadmap.phase1.launch":"✅ BSC代币启动", "roadmap.phase1.community":"✅ 建立Telegram/X社区", "roadmap.phase1.social":"✅ 社交媒体活动", "roadmap.liquidity":"✅ PancakeSwap添加流动性", "roadmap.liquidityLocked":"✅ 流动性锁定",
+        "roadmap.phase2":"🧛 第二阶段 — 狩猎开始", "roadmap.phase2.date":"2026年第一季度 — 激进增长", "roadmap.phase2.website":"📅 官方网站启动", "roadmap.phase2.audit":"📅 代币审计", "roadmap.phase2.marketing":"📅 扩展营销活动", "roadmap.phase2.influencers":"📅 影响者合作", "roadmap.phase2.listings":"📅 CoinGecko & CMC上市", "roadmap.phase2.holders":"📅 1,000+持有人", "roadmap.phase2.events":"📅 社区活动和赠品",
+        "roadmap.phase3":"🧛 第三阶段 — 全球统治", "roadmap.phase3.date":"2026年第二至第三季度 — 扩张", "roadmap.phase3.nft":"🎯 NFT启动", "roadmap.phase3.partnerships":"🎯 战略合作伙伴关系", "roadmap.phase3.holders":"🎯 10,000+持有人", "roadmap.phase3.staking":"🎯 质押和奖励", "roadmap.phase3.ecosystem":"🎯 德古拉生态系统",
+        "roadmap.phase4":"🧛 第四阶段 — 永生", "roadmap.phase4.date":"2026年第四季度+ — 完整生态系统", "roadmap.phase4.cex":"🌟 CEX上市", "roadmap.phase4.crosschain":"🌟 跨链扩展", "roadmap.phase4.metaverse":"🌟 德古拉元宇宙", "roadmap.phase4.partnerships":"🌟 全球合作伙伴关系", "roadmap.phase4.holders100k":"🌟 100,000+持有人", "roadmap.phase4.legacy":"🌟 传承项目",
+        "stats.title":"统计 — 实时数据 📊", "stats.lead":"实时价格和性能。",
+        "profi.title":"Profi — 德古拉 🧛", "profi.lead":"吸血鬼伯爵的故事和加密传说的诞生。",
+        "profi.legend.title":"🌙 重新焕发的传说", "profi.legend.text1":"2025年12月16日的夜晚，喀尔巴阡山脉发生了神奇的事情。在他的城堡中独自度过了几个世纪后，德古拉伯爵感觉到世界在变化。古老的吸血鬼力量不再拥有同样的影响力。一种新的力量已经出现 - 加密货币。他决定是时候从阴影中走出来，留下的遗产不仅仅是贵族血统，还有财务自由。",
+        "profi.legend.text2":"因此 $DRAC 诞生了 - 不仅仅是一个代币，而是一个承诺。一个任何人都可以成为加密世界中的\"精英吸血鬼\"的承诺，无论出身如何。没有吸血的费用，没有控制的主人，只有社区引领命运。",
+        "profi.contract.title":"📜 吸血鬼合约", "profi.contract.text1":"像任何强大的咒语一样，$DRAC 合约是用黑魔法创造的 - 无法穿透和验证的代码。2025年12月16日午夜，伯爵永远放弃了他的力量，将所有者地址设置为 0x0。没有人可以再修改代币，没有人可以铸造新的 $DRAC。这不是背叛，而是转变 - 从君主制到加密民主。",
+        "profi.contract.text2":"由 Blocksafu 审计，由 BscScan 验证，流动性在数字 FlokiFi 城堡中永久锁定。每笔交易都是城堡墙上的一滴，对所有社区吸血鬼都可见。",
+        "profi.community.title":"🏰 社区城堡", "profi.community.text1":"德古拉城堡不再仅仅是伯爵的住所。现在它是整个社区的交易中心。每个持有者都成为加密巫师团的成员，可以访问信息、决策和共同产生的利润。旧墙已经倒塌，为完全透明和开放发展腾出空间。",
+        "profi.community.text2":"这里没有秘密，没有等级。只有平等的吸血鬼为了共同目标而合作：将 $DRAC 带入加密聚光灯下。每一天，社区投票、提议并构建项目的未来。",
+        "profi.future.title":"🦇 飞向未来", "profi.future.text1":"吸血鬼不再受地球束缚。现在他们在数字世界中自由飞翔，将 $DRAC 的故事传播到边界和大陆。每个持有者都是吸血鬼大使，在社交媒体和全球加密社区中传播项目的消息。",
+        "profi.future.text2":"路线图是我们永生的地图：主题 NFT、质押奖励、主要交易所上市、我们自己的元宇宙。但最重要的宝藏是社区 - 成千上万的吸血鬼相信 $DRAC 的愿景，并每天努力使其成为现实。",
+        "profi.quote":"\"夜晚不再是为了隐藏，而是为了闪耀。在加密世界中，透明是我们的光，社区是我们的力量。在一起，我们将把黑暗变成光明。\" - 德古拉伯爵，2025年12月16日",
+        "profi.info.title":"📜官方信息", "profi.info.contract":"📄 合约: 0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88", "profi.info.security":"🔒 安全性: Blocksafu 审计，已放弃，流动性锁定", "profi.info.supply":"📈 供应量: 14,000,010,000,000,000,000,000,000 $DRAC", "profi.info.distribution":"📊 分配: 空投 10% • 基金会储备 7.14% • 锁定2030年 21.43% • 营销 1.36% • 公开/PancakeSwap 60.07%", "profi.info.taxes":"💰 税费: 0% (无交易费用)", "profi.info.website":"🌐 网站: draculatokens.com", "profi.info.community":"🦇 社区: t.me/draculacommunity"
+      },
+      fr: {
+        "nav.about":"À propos", "nav.token":"Token", "nav.roadmap":"Feuille de route", "nav.stats":"Statistiques", "nav.profi":"Profi", "nav.contact":"Contact",
+        "hero.title":"DRACULA", "hero.lead":"Un meme coin viral — communauté, transparence et amusement.",
+        "hero.dexscreener":"Voir en direct sur DexScreener", "hero.copy":"Copier l'adresse du contrat", "hero.profi":"Voir Profi", "hero.addtoken":"Ajouter le token au wallet", "hero.swap":"Acheter sur PancakeSwap", "hero.bscscan":"Voir sur BscScan",
+        "token.title":"Token — DRACULA 🧛", "token.lead":"🧛‍♂️ Dracula - Le Comte Vampire de Transylvanie! Le 16 décembre 2025, le vampire le plus célèbre a décidé d'émerger de l'ombre et de lancer son propre token. Après des siècles à boire du sang noble, Dracula a découvert une nouvelle passion: la crypto! Maintenant, il veut transformer son château en un centre de trading et faire de chaque holder un vampire d'élite. Pas de taxes, contrat renoncé et liquidité bloquée. Rejoignez la crypto-coven!",
+        "token.details":"Détails du Token", "token.name":"Nom", "token.symbol":"Symbole", "token.totalSupply":"Offre Totale", "token.decimals":"Décimales", "token.contract":"Contrat",
+        "token.tokenomics":"Tokenomics", "token.taxes":"0% de taxes — aucun frais de transaction", "token.renounced":"Contrat Renoncé — owner défini à 0x0", "token.liquidity":"Liquidité Bloquée — sur FlokiFi", "token.fair":"Lancement Équitable — aucune allocation privée", "token.community":"Communauté — développement communautaire",
+        "token.distribution":"Distribution", "token.airdrop":"Airdrop - 10%", "token.foundation":"Réserve Fondation - 7.14%", "token.locked":"Bloqué 2030 - 21.43%", "token.pancake":"Liquidité PancakeSwap - 1.36%", "token.public":"Public/Communauté - 60.07%", "token.distributionDesc":"Distribution stratégique pour une croissance durable: airdrop pour l'adoption, réserve pour le développement, liquidité bloquée à long terme.",
+        "token.utility":"Utilité", "token.utility1":"🧛 Token Communautaire — identité partagée", "token.utility2":"📈 Trading — spéculation et croissance", "token.utility3":"🎮 Gaming — intégrations futures", "token.utility4":"🎨 NFTs — collections thématiques", "token.utility5":"💎 Staking — récompenses communautaires",
+        "token.security":"Sécurité", "token.auditDesc":"Audit complet par Blocksafu — contrat vérifié et sécurisé.", "token.auditLink":"🔍 Voir le rapport Blocksafu", "token.liquidityDesc":"Liquidité initiale bloquée sur FlokiFi pour une durée illimitée.", "token.liquidityLink":"🔗 Voir la transaction FlokiFi", "token.renouncedDesc":"Adresse owner définie à 0x0 — aucune modification possible.", "token.renouncedLink":"🔍 Voir la transaction de renonciation", "token.transparentDesc":"Toutes les informations publiques sur BscScan et DexScreener.", "token.transparentLink":"🔍 Voir le token $DRAC sur BscScan",
+        "roadmap.title":"Feuille de route — Le voyage de DRACULA 🗺️", "roadmap.lead":"Plans stratégiques et phases de développement.",
+        "roadmap.phase1":"🧛 Phase 1 — L'Éveil", "roadmap.phase1.date":"Q4 2025 — Lancement et Fondation", "roadmap.phase1.launch":"✅ Lancement Token sur BSC", "roadmap.phase1.community":"✅ Construire Communauté Telegram/X", "roadmap.phase1.social":"✅ Campagnes Médias Sociaux", "roadmap.liquidity":"✅ Liquidité Ajoutée PancakeSwap", "roadmap.liquidityLocked":"✅ Liquidité Bloquée",
+        "roadmap.phase2":"🧛 Phase 2 — La Chasse Commence", "roadmap.phase2.date":"Q1 2026 — Croissance Aggressive", "roadmap.phase2.website":"📅 Lancement Site Web Officiel", "roadmap.phase2.audit":"📅 Audit Token", "roadmap.phase2.marketing":"📅 Campagnes Marketing Étendues", "roadmap.phase2.influencers":"📅 Partenariats Influenceurs", "roadmap.phase2.listings":"📅 Listages CoinGecko & CMC", "roadmap.phase2.holders":"📅 1,000+ holders", "roadmap.phase2.events":"📅 Événements Communautaires & Giveaways",
+        "roadmap.phase3":"🧛 Phase 3 — Domination Mondiale", "roadmap.phase3.date":"Q2-Q3 2026 — Expansion", "roadmap.phase3.nft":"🎯 Lancement NFT", "roadmap.phase3.partnerships":"🎯 Partenariats Stratégiques", "roadmap.phase3.holders":"🎯 10,000+ holders", "roadmap.phase3.staking":"🎯 Staking & Récompenses", "roadmap.phase3.ecosystem":"🎯 Écosystème DRACULA",
+        "roadmap.phase4":"🧛 Phase 4 — L'Immortalité", "roadmap.phase4.date":"Q4 2026+ — Écosystème Complet", "roadmap.phase4.cex":"🌟 Listing CEX", "roadmap.phase4.crosschain":"🌟 Expansion Cross-chain", "roadmap.phase4.metaverse":"🌟 Méta-verse DRACULA", "roadmap.phase4.partnerships":"🌟 Partenariats Mondiaux", "roadmap.phase4.holders100k":"🌟 100,000+ holders", "roadmap.phase4.legacy":"🌟 Projet Legacy",
+        "stats.title":"Statistiques — Données en direct 📊", "stats.lead":"Prix et performance en temps réel.",
+        "profi.title":"Profi — DRACULA 🧛", "profi.lead":"L'histoire du Comte Vampire et la naissance de la légende crypto.",
+        "profi.legend.title":"🌙 La Légende Renouvelée", "profi.legend.text1":"Dans la nuit du 16 décembre 2025, quelque chose de magique s'est produit dans les Carpates. Après des siècles de solitude dans son château, le Comte Dracula a senti le monde changer. Les anciens pouvoirs vampires n'avaient plus la même influence. Une nouvelle force avait émergé - la crypto. Et il a décidé qu'il était temps de sortir de l'ombre et de laisser un héritage non seulement de sang noble, mais aussi de liberté financière.",
+        "profi.legend.text2":"Ainsi $DRAC est né - pas seulement un token, mais une promesse. Une promesse que n'importe qui peut devenir un \"vampire d'élite\" dans le monde crypto, quelle que soit son origine. Sans frais qui drainent, sans maîtres qui contrôlent, seulement la communauté menant le destin.",
+        "profi.contract.title":"📜 Le Contrat Vampirique", "profi.contract.text1":"Comme tout sort puissant, le contrat $DRAC a été créé avec magie noire - code impénétrable et vérifié. Le 16 décembre 2025, à minuit, le Comte a renoncé à ses pouvoirs pour toujours, définissant l'adresse owner à 0x0. Personne ne peut plus modifier le token, personne ne peut frapper de nouveaux $DRAC. Ce n'est pas une trahison, mais une transformation - de la monarchie à la démocratie crypto.",
+        "profi.contract.text2":"Audité par Blocksafu, vérifié par BscScan, avec liquidité bloquée pour l'éternité dans le château numérique FlokiFi. Chaque transaction est une goutte dans le mur du château, visible pour tous les vampires de la communauté.",
+        "profi.community.title":"🏰 Le Château de la Communauté", "profi.community.text1":"Le château de Dracula n'est plus seulement la résidence du Comte. Maintenant c'est un centre de trading pour toute la communauté. Chaque holder devient membre du crypto-coven, avec accès aux informations, aux décisions et aux profits générés ensemble. Les vieux murs sont tombés, faisant place à une transparence totale et un développement ouvert.",
+        "profi.community.text2":"Ici il n'y a pas de secrets, pas de hiérarchies. Seulement des vampires égaux travaillant ensemble pour un but commun: amener $DRAC sous les projecteurs crypto. Chaque jour, la communauté vote, propose et construit l'avenir du projet.",
+        "profi.future.title":"🦇 Le Vol vers le Futur", "profi.future.text1":"Les vampires ne sont plus liés à la terre. Maintenant ils volent libres à travers le monde numérique, emportant l'histoire de $DRAC à travers les frontières et les continents. Chaque holder est un vampire ambassadeur, répandant la nouvelle sur le projet sur les réseaux sociaux et dans les communautés crypto mondiales.",
+        "profi.future.text2":"La feuille de route est notre carte vers l'immortalité: NFT thématiques, récompenses de staking, listages sur des échanges majeurs, notre propre metaverse. Mais le trésor le plus important est la communauté - des milliers de vampires qui croient en la vision $DRAC et travaillent quotidiennement pour la rendre réalité.",
+        "profi.quote":"\"La nuit n'est plus pour se cacher, mais pour briller. Dans le monde crypto, la transparence est notre lumière, et la communauté est notre pouvoir. Ensemble, nous transformerons l'obscurité en lumière.\" - Comte Dracula, 16 décembre 2025",
+        "profi.info.title":"📜Informations Officielles", "profi.info.contract":"📄 Contrat: 0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88", "profi.info.security":"🔒 Sécurité: Audité par Blocksafu, renoncé, liquidité bloquée", "profi.info.supply":"📈 Supply: 14,000,010,000,000,000,000,000,000 $DRAC", "profi.info.distribution":"📊 Distribution: Airdrop 10% • Réserve Fondation 7.14% • Bloqué 2030 21.43% • Marketing 1.36% • Public/PancakeSwap 60.07%", "profi.info.taxes":"💰 Taxes: 0% (aucuns frais de transaction)", "profi.info.website":"🌐 Site Web: draculatokens.com", "profi.info.community":"🦇 Communauté: t.me/draculacommunity"
+      },
+      es: {
+        "nav.about":"Acerca", "nav.token":"Token", "nav.roadmap":"Hoja de ruta", "nav.stats":"Estadísticas", "nav.profi":"Profi", "nav.contact":"Contacto",
+        "hero.title":"DRACULA", "hero.lead":"Un meme coin viral — comunidad, transparencia y diversión.",
+        "hero.dexscreener":"Ver en vivo en DexScreener", "hero.copy":"Copiar dirección del contrato", "hero.profi":"Ver Profi", "hero.addtoken":"Agregar token al wallet", "hero.swap":"Comprar en PancakeSwap", "hero.bscscan":"Ver en BscScan",
+        "token.title":"Token — DRACULA 🧛", "token.lead":"🧛‍♂️ Dracula - El Conde Vampiro de Transilvania! El 16 de diciembre de 2025, el vampiro más famoso decidió salir de las sombras y lanzar su propio token. Después de siglos de beber sangre noble, Dracula descubrió una nueva pasión: ¡crypto! Ahora quiere transformar su castillo en un centro de trading y hacer de cada holder un vampiro de élite. Sin impuestos, contrato renunciado y liquidez bloqueada. ¡Únete al crypto-coven!",
+        "token.details":"Detalles del Token", "token.name":"Nombre", "token.symbol":"Símbolo", "token.totalSupply":"Suministro Total", "token.decimals":"Decimales", "token.contract":"Contrato",
+        "token.tokenomics":"Tokenomics", "token.taxes":"0% Impuestos — sin comisiones de transacción", "token.renounced":"Contrato Renunciado — owner establecido en 0x0", "token.liquidity":"Liquidez Bloqueada — en FlokiFi", "token.fair":"Lanzamiento Justo — sin asignación privada", "token.community":"Impulsado por la Comunidad — desarrollo comunitario",
+        "token.distribution":"Distribución", "token.airdrop":"Airdrop - 10%", "token.foundation":"Reserva Fundación - 7.14%", "token.locked":"Bloqueado 2030 - 21.43%", "token.pancake":"Liquidez PancakeSwap - 1.36%", "token.public":"Público/Comunidad - 60.07%", "token.distributionDesc":"Distribución estratégica para crecimiento sostenible: airdrop para adopción, reserva para desarrollo, liquidez bloqueada a largo plazo.",
+        "token.utility":"Utilidad", "token.utility1":"🧛 Token Comunitario — identidad compartida", "token.utility2":"📈 Trading — especulación y crecimiento", "token.utility3":"🎮 Gaming — integraciones futuras", "token.utility4":"🎨 NFTs — colecciones temáticas", "token.utility5":"💎 Staking — recompensas comunitarias",
+        "token.security":"Seguridad", "token.auditDesc":"Auditoría completa de Blocksafu — contrato verificado y seguro.", "token.auditLink":"🔍 Ver informe Blocksafu", "token.liquidityDesc":"Liquidez inicial bloqueada en FlokiFi por tiempo ilimitado.", "token.liquidityLink":"🔗 Ver transacción FlokiFi", "token.renouncedDesc":"Dirección owner establecida en 0x0 — sin posibilidad de modificación.", "token.renouncedLink":"🔍 Ver transacción de renuncia", "token.transparentDesc":"Toda la información pública en BscScan y DexScreener.", "token.transparentLink":"🔍 Ver token $DRAC en BscScan",
+        "roadmap.title":"Hoja de ruta — El viaje de DRACULA 🗺️", "roadmap.lead":"Planes estratégicos y fases de desarrollo.",
+        "roadmap.phase1":"🧛 Fase 1 — El Despertar", "roadmap.phase1.date":"Q4 2025 — Lanzamiento y Fundación", "roadmap.phase1.launch":"✅ Lanzamiento Token en BSC", "roadmap.phase1.community":"✅ Construir Comunidad Telegram/X", "roadmap.phase1.social":"✅ Campañas Medios Sociales", "roadmap.liquidity":"✅ Liquidez Agregada PancakeSwap", "roadmap.liquidityLocked":"✅ Liquidez Bloqueada",
+        "roadmap.phase2":"🧛 Fase 2 — La Caza Comienza", "roadmap.phase2.date":"Q1 2026 — Crecimiento Agresivo", "roadmap.phase2.website":"📅 Lanzamiento Sitio Web Oficial", "roadmap.phase2.audit":"📅 Auditoría Token", "roadmap.phase2.marketing":"📅 Campañas Marketing Extendidas", "roadmap.phase2.influencers":"📅 Asociaciones Influencers", "roadmap.phase2.listings":"📅 Listados CoinGecko & CMC", "roadmap.phase2.holders":"📅 1,000+ holders", "roadmap.phase2.events":"📅 Eventos Comunitarios & Giveaways",
+        "roadmap.phase3":"🧛 Fase 3 — Dominación Global", "roadmap.phase3.date":"Q2-Q3 2026 — Expansión", "roadmap.phase3.nft":"🎯 Lanzamiento NFT", "roadmap.phase3.partnerships":"🎯 Asociaciones Estratégicas", "roadmap.phase3.holders":"🎯 10,000+ holders", "roadmap.phase3.staking":"🎯 Staking & Recompensas", "roadmap.phase3.ecosystem":"🎯 Ecosistema DRACULA",
+        "roadmap.phase4":"🧛 Fase 4 — Inmortalidad", "roadmap.phase4.date":"Q4 2026+ — Ecosistema Completo", "roadmap.phase4.cex":"🌟 Listado CEX", "roadmap.phase4.crosschain":"🌟 Expansión Cross-chain", "roadmap.phase4.metaverse":"🌟 Metaverso DRACULA", "roadmap.phase4.partnerships":"🌟 Asociaciones Globales", "roadmap.phase4.holders100k":"🌟 100,000+ holders", "roadmap.phase4.legacy":"🌟 Proyecto Legacy",
+        "stats.title":"Estadísticas — Datos en vivo 📊", "stats.lead":"Precio y rendimiento en tiempo real.",
+        "profi.title":"Profi — DRACULA 🧛", "profi.lead":"La historia del Conde Vampiro y el nacimiento de la leyenda crypto.",
+        "profi.legend.title":"🌙 La Leyenda Renovada", "profi.legend.text1":"En la noche del 16 de diciembre de 2025, algo mágico sucedió en los Cárpatos. Después de siglos de soledad en su castillo, el Conde Dracula sintió cómo el mundo cambiaba. Los viejos poderes vampíricos ya no tenían la misma influencia. Una nueva fuerza había surgido - crypto. Y decidió que era hora de salir de las sombras y dejar un legado no solo de sangre noble, sino también de libertad financiera.",
+        "profi.legend.text2":"Así nació $DRAC - no solo un token, sino una promesa. Una promesa de que cualquiera puede convertirse en un \"vampiro de élite\" en el mundo crypto, sin importar su origen. Sin impuestos que drenen, sin amos que controlen, solo la comunidad liderando el destino.",
+        "profi.contract.title":"📜 El Contrato Vampírico", "profi.contract.text1":"Como cualquier hechizo poderoso, el contrato $DRAC fue creado con magia negra - código impenetrable y verificado. El 16 de diciembre de 2025, a medianoche, el Conde renunció a sus poderes para siempre, estableciendo la dirección owner en 0x0. Nadie puede modificar más el token, nadie puede acuñar nuevos $DRAC. Esto no es traición, sino transformación - de monarquía a democracia crypto.",
+        "profi.contract.text2":"Auditado por Blocksafu, verificado por BscScan, con liquidez bloqueada por la eternidad en el castillo digital FlokiFi. Cada transacción es una gota en el muro del castillo, visible para todos los vampiros de la comunidad.",
+        "profi.community.title":"🏰 El Castillo de la Comunidad", "profi.community.text1":"El castillo de Dracula ya no es solo la residencia del Conde. Ahora es un centro de trading para toda la comunidad. Cada holder se convierte en miembro del crypto-coven, con acceso a información, decisiones y ganancias generadas juntas. Los viejos muros han caído, haciendo espacio para transparencia total y desarrollo abierto.",
+        "profi.community.text2":"Aquí no hay secretos, no hay jerarquías. Solo vampiros iguales trabajando juntos por un objetivo común: llevar $DRAC a los reflectores crypto. Cada día, la comunidad vota, propone y construye el futuro del proyecto.",
+        "profi.future.title":"🦇 El Vuelo hacia el Futuro", "profi.future.text1":"Los vampiros ya no están atados a la tierra. Ahora vuelan libres a través del mundo digital, llevando la historia de $DRAC a través de fronteras y continentes. Cada holder es un vampiro embajador, difundiendo las noticias sobre el proyecto en redes sociales y comunidades crypto globales.",
+        "profi.future.text2":"La hoja de ruta es nuestro mapa hacia la inmortalidad: NFTs temáticos, recompensas de staking, listados en exchanges grandes, nuestro propio metaverso. Pero el tesoro más importante es la comunidad - miles de vampiros que creen en la visión $DRAC y trabajan diariamente para hacerla realidad.",
+        "profi.quote":"\"La noche ya no es para esconderse, sino para brillar. En el mundo crypto, la transparencia es nuestra luz, y la comunidad es nuestro poder. Juntos, transformaremos la oscuridad en luz.\" - Conde Dracula, 16 de diciembre de 2025",
+        "profi.info.title":"📜Información Oficial", "profi.info.contract":"📄 Contrato: 0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88", "profi.info.security":"🔒 Seguridad: Auditado por Blocksafu, renunciado, liquidez bloqueada", "profi.info.supply":"📈 Supply: 14,000,010,000,000,000,000,000,000 $DRAC", "profi.info.distribution":"📊 Distribución: Airdrop 10% • Reserva Fundación 7.14% • Bloqueado 2030 21.43% • Marketing 1.36% • Público/PancakeSwap 60.07%", "profi.info.taxes":"💰 Impuestos: 0% (sin comisiones de transacción)", "profi.info.website":"🌐 Sitio Web: draculatokens.com", "profi.info.community":"🦇 Comunidad: t.me/draculacommunity"
+      }
+    };
 
-    function rand(min,max){ return Math.random()*(max-min)+min; }
-    function spawnBats(count=10){ const container=document.getElementById('bats'); for(let i=0;i<count;i++){ const b=document.createElement('div'); b.className='bat'; b.textContent='🦇'; const left=rand(5,95); const size=rand(20,64); b.style.left=left+'%'; b.style.fontSize=size+'px'; const dur=rand(5,12); const delay=rand(0,1.8); b.style.animationDuration=dur+'s'; b.style.animationDelay=delay+'s'; container.appendChild(b); }}
-    window.addEventListener('load',()=>{ const curtain=document.getElementById('curtain'); setTimeout(()=>{ curtain.classList.add('open'); spawnBats(12); setTimeout(()=>{ curtain.remove(); },1600); },300); });
-
-    // Wallet integration using ethers.js
-    let provider, signer;
-    const connectBtn = document.getElementById('connectBtn');
-    const walletInfo = document.getElementById('walletInfo');
-    const walletAddressEl = document.getElementById('walletAddress');
-    const walletBalanceEl = document.getElementById('walletBalance');
-
-    async function checkProvider(){ if(window.ethereum){ provider = new ethers.providers.Web3Provider(window.ethereum); return true; } return false; }
-
-    async function switchToBSC(){ try{ await window.ethereum.request({ method: 'wallet_switchEthereumChain', params:[{ chainId: '0x38' }] }); return true; }catch(err){ if(err.code === 4902){ try{ await window.ethereum.request({ method:'wallet_addEthereumChain', params:[{ chainId:'0x38', chainName:'BNB Smart Chain', nativeCurrency:{ name:'BNB', symbol:'BNB', decimals:18 }, rpcUrls:['https://bsc-dataseed.binance.org/'], blockExplorerUrls:['https://bscscan.com'] }] }); return true; }catch(e){ console.error('Add chain error',e); return false; } } console.error('Switch chain error',err); return false; } }
-
-    async function getBalances(address){ try{ const bal = await provider.getBalance(address); const bnb = ethers.utils.formatEther(bal); walletBalanceEl.textContent = bnb + ' BNB';
-        // token balance
-        const erc20 = new ethers.Contract(DRAC_ADDRESS, [ 'function balanceOf(address) view returns (uint256)', 'function decimals() view returns (uint8)', 'function symbol() view returns (string)' ], provider);
-        const [raw, decimals, symbol] = await Promise.all([ erc20.balanceOf(address), erc20.decimals().catch(()=>18), erc20.symbol().catch(()=>'DRAC') ]);
-        const tokenBal = ethers.utils.formatUnits(raw, decimals);
-        walletBalanceEl.textContent += ' • ' + tokenBal + ' ' + symbol;
-    }catch(e){ console.error('getBalances error',e); walletBalanceEl.textContent = '—'; } }
-
-    async function connectWallet(){ if(!await checkProvider()){ alert('Nu a fost detectat un wallet Web3. Instalează MetaMask sau alt wallet compatibil.'); return; }
-      try{
-        await provider.send('eth_requestAccounts', []);
-        signer = provider.getSigner();
-        const address = await signer.getAddress();
-        // ensure on BSC
-        const network = await provider.getNetwork();
-        if(network.chainId !== BSC_CHAIN_ID){ const ok = await switchToBSC(); if(!ok){ alert('Te rog comută manual rețeaua la BSC (Binance Smart Chain).'); } }
-        walletAddressEl.textContent = address.slice(0,6)+'...'+address.slice(-4);
-        walletInfo.style.display = 'inline-block';
-        connectBtn.textContent = 'Deconectează';
-        await getBalances(address);
-
-        // listen for changes
-        window.ethereum.on('accountsChanged', (accounts)=>{ if(accounts.length===0){ disconnectWallet(); } else { walletAddressEl.textContent = accounts[0].slice(0,6)+'...'+accounts[0].slice(-4); getBalances(accounts[0]); } });
-        window.ethereum.on('chainChanged', (chainId)=>{ setTimeout(()=> location.reload(), 400); });
-      }catch(err){ console.error('connect error',err); alert('Eroare la conectarea portofelului: '+ (err.message || err)); }
+    function setLanguage(lang) {
+      if (!TRANSLATIONS[lang]) lang = 'en';
+      localStorage.setItem('site_lang', lang);
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const txt = TRANSLATIONS[lang][key];
+        if (txt !== undefined) {
+          el.textContent = txt;
+        }
+      });
     }
 
-    function disconnectWallet(){ walletInfo.style.display='none'; walletAddressEl.textContent=''; walletBalanceEl.textContent=''; connectBtn.textContent='Connect'; try{ if(window.ethereum && window.ethereum.removeListener){ window.ethereum.removeListener('accountsChanged',()=>{}); window.ethereum.removeListener('chainChanged',()=>{}); } }catch(e){} }
+    function initI18n() {
+      const sel = document.getElementById('langSelect');
+      if (!sel) return;
+      
+      const saved = localStorage.getItem('site_lang') || 'ro';
+      sel.value = TRANSLATIONS[saved] ? saved : 'ro';
+      setLanguage(sel.value);
+      
+      sel.addEventListener('change', () => setLanguage(sel.value));
+    }
 
-    connectBtn.addEventListener('click', async function(){ if(connectBtn.textContent === 'Connect') await connectWallet(); else disconnectWallet(); });
+    // Initialize i18n when DOM is ready
+    document.addEventListener('DOMContentLoaded', initI18n);
 
-    // copy address button
-    document.getElementById('copyBtn')?.addEventListener('click',function(){ const addr=this.getAttribute('data-address'); if(!addr) return; if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(addr).then(()=> alert('Adresa contractului a fost copiată: '+addr)).catch(()=> prompt('Copiază manual adresa contractului:',addr)); } else prompt('Copiază manual adresa contractului:',addr); });
+    // Animations only - wallet functionality is in script.js
+    function rand(min,max){ return Math.random()*(max-min)+min; }
+    function spawnBats(count=15){ 
+      const container=document.getElementById('bats'); 
+      if(!container) return;
+      for(let i=0;i<count;i++){ 
+        const b=document.createElement('div'); 
+        b.className='bat'; 
+        b.textContent='🦇'; 
+        const left=rand(5,95); 
+        const size=rand(30,80); 
+        b.style.left=left+'%'; 
+        b.style.fontSize=size+'px'; 
+        const dur=rand(8,15); 
+        const delay=rand(0,3); 
+        b.style.animationDuration=dur+'s'; 
+        b.style.animationDelay=delay+'s'; 
+        container.appendChild(b); 
+      }
+    }
+    window.addEventListener('load',()=>{ 
+      const curtain=document.getElementById('curtain'); 
+      if(curtain) {
+        setTimeout(()=>{ 
+          curtain.classList.add('open'); 
+          spawnBats(15); 
+          setTimeout(()=>{ 
+            curtain.remove(); 
+          },1600); 
+        },300); 
+      }
+    });
 
-    // smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{ a.addEventListener('click',function(e){ const target=document.querySelector(this.getAttribute('href')); if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth',block:'start'}); } }); });
+    // Calculator Profit
+    function calculateProfit() {
+      const dracAmount = parseFloat(document.getElementById('dracAmount').value) || 1000000;
+      const futurePrice = parseFloat(document.getElementById('futurePrice').value) || 0.00001;
+      const currentPrice = parseFloat(document.getElementById('currentPrice').value) || 0.000003163;
+      
+      const currentValue = (dracAmount * currentPrice) / 1000000;
+      const futureValue = (dracAmount * futurePrice) / 1000000;
+      const profit = futureValue - currentValue;
+      const profitPercentage = ((profit / currentValue) * 100).toFixed(0);
+      
+      document.getElementById('currentValue').textContent = `$${currentValue.toFixed(2)}`;
+      document.getElementById('futureValue').textContent = `$${futureValue.toFixed(2)}`;
+      document.getElementById('profit').textContent = `$${profit.toFixed(2)} (${profit >= 0 ? '+' : ''}${profitPercentage}%)`;
+      
+      const profitElement = document.getElementById('profit').parentElement;
+      if (profit >= 0) {
+        profitElement.classList.add('profit');
+      } else {
+        profitElement.classList.remove('profit');
+      }
+    }
+    
+    // Event listeners for calculator
+    document.getElementById('dracAmount')?.addEventListener('input', calculateProfit);
+    document.getElementById('futurePrice')?.addEventListener('input', calculateProfit);
+    
+    // Initialize calculator
+    calculateProfit();
+
+    // Price Alert functionality
+    function showPriceAlert() {
+      document.getElementById('priceAlertModal').style.display = 'flex';
+    }
+    
+    function closePriceAlert() {
+      document.getElementById('priceAlertModal').style.display = 'none';
+    }
+    
+    function savePriceAlert() {
+      const email = document.getElementById('alertEmail').value;
+      const targetPrice = document.getElementById('targetPrice').value;
+      const alertType = document.getElementById('alertType').value;
+      
+      if (!email || !targetPrice) {
+        alert('Te rugăm completează toate câmpurile!');
+        return;
+      }
+      
+      // Simulare salvare alertă
+      const alerts = JSON.parse(localStorage.getItem('priceAlerts') || '[]');
+      alerts.push({
+        email: email,
+        targetPrice: parseFloat(targetPrice),
+        type: alertType,
+        timestamp: Date.now()
+      });
+      localStorage.setItem('priceAlerts', JSON.stringify(alerts));
+      
+      // Show success message
+      const btn = event.target;
+      const originalText = btn.textContent;
+      btn.innerHTML = '<span class="loading"></span> Salvare...';
+      btn.disabled = true;
+      
+      setTimeout(() => {
+        btn.textContent = '✅ Alertă Salvată!';
+        btn.classList.add('success');
+        
+        setTimeout(() => {
+          closePriceAlert();
+          btn.textContent = originalText;
+          btn.classList.remove('success');
+          btn.disabled = false;
+        }, 1500);
+      }, 1000);
+    }
+    
+    // Error handling for API calls
+    function handleApiError(error, elementId) {
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.innerHTML = `<span style="color: #ff4444;">❌ Eroare: ${error.message}</span>`;
+        element.classList.add('error');
+        
+        setTimeout(() => {
+          element.classList.remove('error');
+          // Reset to original content after 5 seconds
+        }, 5000);
+      }
+    }
+    
+    // Enhanced copy button with loading state
+    document.getElementById('copyBtn')?.addEventListener('click',function(){ 
+      const addr=this.getAttribute('data-address'); 
+      const originalText = this.textContent;
+      
+      this.innerHTML = '<span class="loading"></span> Copiere...';
+      this.disabled = true;
+      
+      navigator.clipboard.writeText(addr).then(() => {
+        setTimeout(() => {
+          this.textContent = '✅ Copiat!';
+          this.classList.add('success');
+          
+          setTimeout(() => {
+            this.textContent = originalText;
+            this.classList.remove('success');
+            this.disabled = false;
+          }, 2000);
+        }, 500);
+      }).catch((error) => {
+        handleApiError(error, 'copyBtn');
+      });
+    });
+
+    // Price alert button listener
+    document.getElementById('priceAlertBtn')?.addEventListener('click', showPriceAlert);
+    
+    // Close modal on outside click
+    document.getElementById('priceAlertModal')?.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closePriceAlert();
+      }
+    });
+
+    // Calculator Profit scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{ 
+      a.addEventListener('click',function(e){ 
+        const target=document.querySelector(this.getAttribute('href')); 
+        if(target){ 
+          e.preventDefault();
+          target.scrollIntoView({behavior:'smooth',block:'start'}); 
+        } 
+      }); 
+    });
 
     // mobile nav toggle
-    document.getElementById('navToggle')?.addEventListener('click',function(){ const nav=document.getElementById('nav'); if(!nav) return; const shown = nav.style.display === 'flex'; nav.style.display = shown ? 'none' : 'flex'; this.setAttribute('aria-expanded', String(!shown)); });
+    document.getElementById('navToggle')?.addEventListener('click',function(){ 
+      const nav=document.getElementById('nav'); 
+      if(!nav) return; 
+      const shown = nav.style.display === 'flex'; 
+      nav.style.display = shown ? 'none' : 'flex'; 
+      this.setAttribute('aria-expanded', String(!shown)); 
+    });
   </script>
 </body>
 </html>
