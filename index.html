@@ -79,31 +79,31 @@
   <div id="priceAlertModal" class="modal" style="display: none;">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>🔔 Setează Alertă Preț</h3>
+        <h3 data-i18n="modal.priceAlert.title">🔔 Setează Alertă Preț</h3>
         <button class="modal-close" onclick="closePriceAlert()">&times;</button>
       </div>
       <div class="modal-body">
-        <p>Vei primi o notificare când prețul $DRAC atinge valoarea setată.</p>
+        <p data-i18n="modal.priceAlert.description">Vei primi o notificare când prețul $DRAC atinge valoarea setată.</p>
         <div class="form-group">
-          <label>Email:</label>
+          <label data-i18n="modal.priceAlert.email">Email:</label>
           <input type="email" id="alertEmail" placeholder="email@exemplu.com" required>
         </div>
         <div class="form-group">
-          <label>Preț țintă ($):</label>
+          <label data-i18n="modal.priceAlert.targetPrice">Preț țintă ($):</label>
           <input type="number" id="targetPrice" placeholder="0.00001" step="0.000001" required>
         </div>
         <div class="form-group">
-          <label>Tip alertă:</label>
+          <label data-i18n="modal.priceAlert.alertType">Tip alertă:</label>
           <select id="alertType">
-            <option value="above">Când prețul este MAI MARE</option>
-            <option value="below">Când prețul este MAI MIC</option>
-            <option value="exact">Când prețul este EXACT</option>
+            <option value="above" data-i18n="modal.priceAlert.above">Când prețul este MAI MARE</option>
+            <option value="below" data-i18n="modal.priceAlert.below">Când prețul este MAI MIC</option>
+            <option value="exact" data-i18n="modal.priceAlert.exact">Când prețul este EXACT</option>
           </select>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" onclick="savePriceAlert()">💾 Salvează Alertă</button>
-        <button class="btn btn-secondary" onclick="closePriceAlert()">Anulează</button>
+        <button class="btn btn-primary" onclick="savePriceAlert()" data-i18n="modal.priceAlert.save">💾 Salvează Alertă</button>
+        <button class="btn btn-secondary" onclick="closePriceAlert()" data-i18n="modal.priceAlert.cancel">Anulează</button>
       </div>
     </div>
   </div>
@@ -145,19 +145,19 @@
           <div class="hero-ctas">
             <a class="btn btn-primary" id="dexLink" href="https://dexscreener.com/bsc/0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" target="_blank" rel="noopener" data-i18n="hero.dexscreener">Vezi live pe DexScreener</a>
             <button class="btn" id="copyBtn" data-address="0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88" data-i18n="hero.copy">Copiază adresa contract</button>
-            <a class="btn btn-primary buy-direct" href="https://pancakeswap.finance/swap?outputCurrency=0xf33a6cc74ddbe044b173f8f6a7591e8ae20cef88&inputCurrency=BNB" target="_blank" rel="noopener">� Cumpără $DRAC - 1 Click</a>
-            <button class="btn btn-secondary" id="priceAlertBtn">🔔 Setează Alertă Preț</button>
+            <a class="btn btn-primary buy-direct" href="https://pancakeswap.finance/swap?outputCurrency=0xf33a6cc74ddbe044b173f8f6a7591e8ae20cef88&inputCurrency=BNB" target="_blank" rel="noopener">🧛 Cumpără $DRAC - 1 Click</a>
+            <button class="btn btn-secondary" id="priceAlertBtn" data-i18n="hero.priceAlert">🔔 Setează Alertă Preț</button>
           </div>
         </div>
 
         <aside class="hero-side">
           <div class="card">
-            <h3>Detalii token</h3>
+            <h3 data-i18n="hero.side.title">Detalii token</h3>
             <ul>
-              <li>Adresă: <code id="contractAddress">0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88</code></li>
-              <li>Taxe: <strong>0%</strong></li>
-              <li>Lichiditate: <strong>blocată</strong></li>
-              <li>Contract: <strong>renunțat</strong></li>
+              <li data-i18n="hero.side.address">Adresă: <code id="contractAddress">0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88</code></li>
+              <li data-i18n="hero.side.taxes">Taxe: <strong>0%</strong></li>
+              <li data-i18n="hero.side.liquidity">Lichiditate: <strong>blocată</strong></li>
+              <li data-i18n="hero.side.contract">Contract: <strong>renunțat</strong></li>
             </ul>
           </div>
         </aside>
@@ -728,7 +728,9 @@
       ro: {
         "nav.about":"Despre", "nav.token":"Token", "nav.roadmap":"Roadmap", "nav.stats":"Statistici", "nav.profi":"Profi", "nav.contact":"Contact",
         "hero.title":"DRACULA", "hero.lead":"Un meme coin viral — comunitate, transparență și distracție.",
-        "hero.dexscreener":"Vezi live pe DexScreener", "hero.copy":"Copiază adresa contract", "hero.profi":"Vezi Profi", "hero.addtoken":"Adaugă token în wallet", "hero.swap":"Cumpără pe PancakeSwap", "hero.bscscan":"Vezi pe BscScan",
+        "hero.dexscreener":"Vezi live pe DexScreener", "hero.copy":"Copiază adresa contract", "hero.profi":"Vezi Profi", "hero.addtoken":"Adaugă token în wallet", "hero.buyDirect":"🧛 Cumpără $DRAC - 1 Click", "hero.priceAlert":"🔔 Setează Alertă Preț", "hero.swap":"Cumpără pe PancakeSwap", "hero.bscscan":"Vezi pe BscScan",
+        "hero.side.title":"Detalii token", "hero.side.address":"Adresă: <code id=\"contractAddress\">0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88</code>", "hero.side.taxes":"Taxe: <strong>0%</strong>", "hero.side.liquidity":"Lichiditate: <strong>blocată</strong>", "hero.side.contract":"Contract: <strong>renunțat</strong>",
+        "modal.priceAlert.title":"🔔 Setează Alertă Preț", "modal.priceAlert.description":"Vei primi o notificare când prețul $DRAC atinge valoarea setată.", "modal.priceAlert.email":"Email:", "modal.priceAlert.targetPrice":"Preț țintă ($):", "modal.priceAlert.alertType":"Tip alertă:", "modal.priceAlert.above":"Când prețul este MAI MARE", "modal.priceAlert.below":"Când prețul este MAI MIC", "modal.priceAlert.exact":"Când prețul este EXACT", "modal.priceAlert.save":"💾 Salvează Alertă", "modal.priceAlert.cancel":"Anulează",
         "token.title":"Token — DRACULA 🧛", "token.lead":"🧛‍♂️ Dracula - Contele Vampir din Transilvania! Pe 16 decembrie 2025, cel mai faimos vampir a decis să iasă din umbră și să-și lanseze propriul token. După secole de a bea sânge nobil, Dracula a descoperit o nouă pasiune: crypto! Acum vrea să transforme castelul într-un centru de trading și să facă din fiecare holder un vampir de elită. Fără taxe, contract renunțat și lichiditate blocată. Alătură-te coven-ului crypto!",
         "token.details":"Detalii Token", "token.name":"Nume", "token.symbol":"Simbol", "token.totalSupply":"Total Supply", "token.decimals":"Decimals", "token.contract":"Contract",
         "token.tokenomics":"Tokenomics", "token.taxes":"0% Taxe — nicio taxă la tranzacții", "token.renounced":"Contract Renunțat — owner set la 0x0", "token.liquidity":"Lichiditate Blocată — pe FlokiFi", "token.fair":"Fair Launch — nicio alocare privată", "token.community":"Community Driven — dezvoltare comunitară",
@@ -756,7 +758,9 @@
       en: {
         "nav.about":"About", "nav.token":"Token", "nav.roadmap":"Roadmap", "nav.stats":"Stats", "nav.profi":"Profi", "nav.contact":"Contact",
         "hero.title":"DRACULA", "hero.lead":"A viral meme coin — community, transparency and fun.",
-        "hero.dexscreener":"View live on DexScreener", "hero.copy":"Copy contract address", "hero.profi":"View Profi", "hero.addtoken":"Add token to wallet", "hero.swap":"Buy on PancakeSwap", "hero.bscscan":"View on BscScan",
+        "hero.dexscreener":"View live on DexScreener", "hero.copy":"Copy contract address", "hero.profi":"View Profi", "hero.addtoken":"Add token to wallet", "hero.buyDirect":"🧛 Buy $DRAC - 1 Click", "hero.priceAlert":"🔔 Set Price Alert", "hero.swap":"Buy on PancakeSwap", "hero.bscscan":"View on BscScan",
+        "hero.side.title":"Token Details", "hero.side.address":"Address: <code id=\"contractAddress\">0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88</code>", "hero.side.taxes":"Taxes: <strong>0%</strong>", "hero.side.liquidity":"Liquidity: <strong>locked</strong>", "hero.side.contract":"Contract: <strong>renounced</strong>",
+        "modal.priceAlert.title":"🔔 Set Price Alert", "modal.priceAlert.description":"You will receive a notification when $DRAC price reaches the set value.", "modal.priceAlert.email":"Email:", "modal.priceAlert.targetPrice":"Target Price ($):", "modal.priceAlert.alertType":"Alert Type:", "modal.priceAlert.above":"When price is HIGHER", "modal.priceAlert.below":"When price is LOWER", "modal.priceAlert.exact":"When price is EXACT", "modal.priceAlert.save":"💾 Save Alert", "modal.priceAlert.cancel":"Cancel",
         "token.title":"Token — DRACULA 🧛", "token.lead":"🧛‍♂️ Dracula - The Vampire Count from Transylvania! On December 16, 2025, the most famous vampire decided to emerge from the shadows and launch his own token. After centuries of drinking noble blood, Dracula discovered a new passion: crypto! Now he wants to transform his castle into a trading hub and make every holder an elite vampire. No taxes, renounced contract and liquidity locked. Join the crypto coven!",
         "token.details":"Token Details", "token.name":"Name", "token.symbol":"Symbol", "token.totalSupply":"Total Supply", "token.decimals":"Decimals", "token.contract":"Contract",
         "token.tokenomics":"Tokenomics", "token.taxes":"0% Taxes — no transaction fees", "token.renounced":"Contract Renounced — owner set to 0x0", "token.liquidity":"Liquidity Locked — on FlokiFi", "token.fair":"Fair Launch — no private allocation", "token.community":"Community Driven — community development",
@@ -784,7 +788,9 @@
       zh: {
         "nav.about":"关于", "nav.token":"代币", "nav.roadmap":"路线图", "nav.stats":"统计", "nav.profi":"Profi", "nav.contact":"联系",
         "hero.title":"德古拉", "hero.lead":"一个病毒式迷因币 — 社区、透明和乐趣。",
-        "hero.dexscreener":"在 DexScreener 实时查看", "hero.copy":"复制合约地址", "hero.profi":"查看 Profi", "hero.addtoken":"添加代币到钱包", "hero.swap":"在 PancakeSwap 购买", "hero.bscscan":"在 BscScan 查看",
+        "hero.dexscreener":"在 DexScreener 实时查看", "hero.copy":"复制合约地址", "hero.profi":"查看 Profi", "hero.addtoken":"添加代币到钱包", "hero.buyDirect":"🧛 购买 $DRAC - 1 Click", "hero.priceAlert":"🔔 设置价格警报", "hero.swap":"在 PancakeSwap 购买", "hero.bscscan":"在 BscScan 查看",
+        "hero.side.title":"代币详情", "hero.side.address":"地址: <code id=\"contractAddress\">0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88</code>", "hero.side.taxes":"税费: <strong>0%</strong>", "hero.side.liquidity":"流动性: <strong>锁定</strong>", "hero.side.contract":"合约: <strong>已放弃</strong>",
+        "modal.priceAlert.title":"🔔 设置价格警报", "modal.priceAlert.description":"当 $DRAC 价格达到设定值时，您将收到通知。", "modal.priceAlert.email":"邮箱:", "modal.priceAlert.targetPrice":"目标价格 ($):", "modal.priceAlert.alertType":"警报类型:", "modal.priceAlert.above":"当价格更高时", "modal.priceAlert.below":"当价格更低时", "modal.priceAlert.exact":"当价格完全匹配时", "modal.priceAlert.save":"💾 保存警报", "modal.priceAlert.cancel":"取消",
         "token.title":"代币 — 德古拉 🧛", "token.lead":"🧛‍♂️ 德古拉 - 特兰西瓦尼亚的吸血鬼伯爵！2025年12月16日，最著名的吸血鬼决定从阴影中出现并推出自己的代币。几个世纪以来饮用贵族血液后，德古拉发现了新的热情：加密货币！现在他想把城堡变成交易中心，让每个持有者都成为精英吸血鬼。无税，合约已放弃，流动性已锁定。加入加密巫师团！",
         "token.details":"代币详情", "token.name":"名称", "token.symbol":"符号", "token.totalSupply":"总供应量", "token.decimals":"小数位数", "token.contract":"合约",
         "token.tokenomics":"代币经济学", "token.taxes":"0% 税费 — 无交易费用", "token.renounced":"合约已放弃 — 所有者设置为 0x0", "token.liquidity":"流动性锁定 — 在 FlokiFi", "token.fair":"公平发行 — 无私人分配", "token.community":"社区驱动 — 社区发展",
@@ -812,7 +818,9 @@
       fr: {
         "nav.about":"À propos", "nav.token":"Token", "nav.roadmap":"Feuille de route", "nav.stats":"Statistiques", "nav.profi":"Profi", "nav.contact":"Contact",
         "hero.title":"DRACULA", "hero.lead":"Un meme coin viral — communauté, transparence et amusement.",
-        "hero.dexscreener":"Voir en direct sur DexScreener", "hero.copy":"Copier l'adresse du contrat", "hero.profi":"Voir Profi", "hero.addtoken":"Ajouter le token au wallet", "hero.swap":"Acheter sur PancakeSwap", "hero.bscscan":"Voir sur BscScan",
+        "hero.dexscreener":"Voir en direct sur DexScreener", "hero.copy":"Copier l'adresse du contrat", "hero.profi":"Voir Profi", "hero.addtoken":"Ajouter le token au wallet", "hero.buyDirect":"🧛 Acheter $DRAC - 1 Click", "hero.priceAlert":"🔔 Définir Alerte Prix", "hero.swap":"Acheter sur PancakeSwap", "hero.bscscan":"Voir sur BscScan",
+        "hero.side.title":"Détails Token", "hero.side.address":"Adresse: <code id=\"contractAddress\">0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88</code>", "hero.side.taxes":"Taxes: <strong>0%</strong>", "hero.side.liquidity":"Liquidité: <strong>bloquée</strong>", "hero.side.contract":"Contrat: <strong>renoncé</strong>",
+        "modal.priceAlert.title":"🔔 Définir Alerte Prix", "modal.priceAlert.description":"Vous recevrez une notification quand le prix $DRAC atteint la valeur définie.", "modal.priceAlert.email":"Email:", "modal.priceAlert.targetPrice":"Prix Cible ($):", "modal.priceAlert.alertType":"Type d'Alerte:", "modal.priceAlert.above":"Quand le prix est PLUS ÉLEVÉ", "modal.priceAlert.below":"Quand le prix est PLUS BAS", "modal.priceAlert.exact":"Quand le prix est EXACT", "modal.priceAlert.save":"💾 Sauvegarder Alerte", "modal.priceAlert.cancel":"Annuler",
         "token.title":"Token — DRACULA 🧛", "token.lead":"🧛‍♂️ Dracula - Le Comte Vampire de Transylvanie! Le 16 décembre 2025, le vampire le plus célèbre a décidé d'émerger de l'ombre et de lancer son propre token. Après des siècles à boire du sang noble, Dracula a découvert une nouvelle passion: la crypto! Maintenant, il veut transformer son château en un centre de trading et faire de chaque holder un vampire d'élite. Pas de taxes, contrat renoncé et liquidité bloquée. Rejoignez la crypto-coven!",
         "token.details":"Détails du Token", "token.name":"Nom", "token.symbol":"Symbole", "token.totalSupply":"Offre Totale", "token.decimals":"Décimales", "token.contract":"Contrat",
         "token.tokenomics":"Tokenomics", "token.taxes":"0% de taxes — aucun frais de transaction", "token.renounced":"Contrat Renoncé — owner défini à 0x0", "token.liquidity":"Liquidité Bloquée — sur FlokiFi", "token.fair":"Lancement Équitable — aucune allocation privée", "token.community":"Communauté — développement communautaire",
@@ -840,7 +848,9 @@
       es: {
         "nav.about":"Acerca", "nav.token":"Token", "nav.roadmap":"Hoja de ruta", "nav.stats":"Estadísticas", "nav.profi":"Profi", "nav.contact":"Contacto",
         "hero.title":"DRACULA", "hero.lead":"Un meme coin viral — comunidad, transparencia y diversión.",
-        "hero.dexscreener":"Ver en vivo en DexScreener", "hero.copy":"Copiar dirección del contrato", "hero.profi":"Ver Profi", "hero.addtoken":"Agregar token al wallet", "hero.swap":"Comprar en PancakeSwap", "hero.bscscan":"Ver en BscScan",
+        "hero.dexscreener":"Ver en vivo en DexScreener", "hero.copy":"Copiar dirección del contrato", "hero.profi":"Ver Profi", "hero.addtoken":"Agregar token al wallet", "hero.buyDirect":"🧛 Comprar $DRAC - 1 Click", "hero.priceAlert":"🔔 Configurar Alerta Precio", "hero.swap":"Comprar en PancakeSwap", "hero.bscscan":"Ver en BscScan",
+        "hero.side.title":"Detalles del Token", "hero.side.address":"Dirección: <code id=\"contractAddress\">0xf33a6Cc74ddbe044b173F8f6a7591E8Ae20cEF88</code>", "hero.side.taxes":"Impuestos: <strong>0%</strong>", "hero.side.liquidity":"Liquidez: <strong>bloqueada</strong>", "hero.side.contract":"Contrato: <strong>renunciado</strong>",
+        "modal.priceAlert.title":"🔔 Configurar Alerta Precio", "modal.priceAlert.description":"Recibirás una notificación cuando el precio $DRAC alcance el valor establecido.", "modal.priceAlert.email":"Email:", "modal.priceAlert.targetPrice":"Precio Objetivo ($):", "modal.priceAlert.alertType":"Tipo de Alerta:", "modal.priceAlert.above":"Cuando el precio es MÁS ALTO", "modal.priceAlert.below":"Cuando el precio es MÁS BAJO", "modal.priceAlert.exact":"Cuando el precio es EXACTO", "modal.priceAlert.save":"💾 Guardar Alerta", "modal.priceAlert.cancel":"Cancelar",
         "token.title":"Token — DRACULA 🧛", "token.lead":"🧛‍♂️ Dracula - El Conde Vampiro de Transilvania! El 16 de diciembre de 2025, el vampiro más famoso decidió salir de las sombras y lanzar su propio token. Después de siglos de beber sangre noble, Dracula descubrió una nueva pasión: ¡crypto! Ahora quiere transformar su castillo en un centro de trading y hacer de cada holder un vampiro de élite. Sin impuestos, contrato renunciado y liquidez bloqueada. ¡Únete al crypto-coven!",
         "token.details":"Detalles del Token", "token.name":"Nombre", "token.symbol":"Símbolo", "token.totalSupply":"Suministro Total", "token.decimals":"Decimales", "token.contract":"Contrato",
         "token.tokenomics":"Tokenomics", "token.taxes":"0% Impuestos — sin comisiones de transacción", "token.renounced":"Contrato Renunciado — owner establecido en 0x0", "token.liquidity":"Liquidez Bloqueada — en FlokiFi", "token.fair":"Lanzamiento Justo — sin asignación privada", "token.community":"Impulsado por la Comunidad — desarrollo comunitario",
