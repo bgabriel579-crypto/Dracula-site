@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRACULA TOKEN - Pi Network</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a0000 0%, #330000 50%, #1a0000 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+        }
+        
+        .logo-container {
+            display: inline-block;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid #8B0000;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            color: #ff3333;
+        }
+        
+        .tagline {
+            font-size: 1.2em;
+            color: #cc6666;
+            margin-bottom: 30px;
+        }
+        
+        .token-info {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid #8B0000;
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.3);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .info-card {
+            background: rgba(139, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #660000;
+        }
+        
+        .info-card h3 {
+            color: #ff6666;
+            margin-bottom: 10px;
+        }
+        
+        .info-card p {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+        
+        .highlight {
+            color: #ff3333;
+            font-weight: bold;
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin: 50px 0;
+            padding: 40px;
+            background: rgba(139, 0, 0, 0.3);
+            border-radius: 15px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #8B0000, #ff0000);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+        }
+        
+        .blood-drip {
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background: linear-gradient(to bottom, #ff0000, transparent);
+            animation: drip 3s infinite;
+        }
+        
+        @keyframes drip {
+            0% { opacity: 0; transform: translateY(-20px); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(20px); }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid #660000;
+            margin-top: 50px;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            color: #ff6666;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.2em;
+        }
+        
+        .social-links a:hover {
+            color: #ff3333;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .container { padding: 10px; }
+            .info-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="dracula-logo.svg" alt="DRACULA TOKEN" class="logo">
+                <div class="blood-drip" style="left: 48%;"></div>
+                <div class="blood-drip" style="left: 52%; animation-delay: 1.5s;"></div>
+            </div>
+            <h1>🧛‍♂️ DRACULA TOKEN</h1>
+            <p class="tagline">The Vampire Count from Transylvania - Now on Pi Network!</p>
+        </header>
+        
+        <section class="token-info">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #ff6666;">Token Information</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🪙 Token Details</h3>
+                    <p><span class="highlight">Code:</span> DRACULA</p>
+                    <p><span class="highlight">Total Supply:</span> 14,000,010,000</p>
+                    <p><span class="highlight">Decimals:</span> 7</p>
+                    <p><span class="highlight">Type:</span> Fixed Supply</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>🏛️ Issuer Information</h3>
+                    <p><span class="highlight">Issuer Address:</span></p>
+                    <p style="word-break: break-all; font-size: 0.9em;">GC3E4SQ5EJKLLQ5Q3SNLAFND45OSACSWGR4BTM67WTODT674SZVKFLFT</p>
+                    <p><span class="highlight">Network:</span> Pi Testnet</p>
+                    <p><span class="highlight">Status:</span> ✅ Active</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>📖 About DRACULA</h3>
+                    <p>A legendary token representing the eternal legacy of Count Dracula from Transylvania. Limited edition with mystical powers in the Pi Network ecosystem.</p>
+                    <p style="margin-top: 10px;"><span class="highlight">Theme:</span> Vampire Lore</p>
+                    <p><span class="highlight">Origin:</span> Transylvania</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>🔗 Technical Details</h3>
+                    <p><span class="highlight">Protocol:</span> Stellar-based</p>
+                    <p><span class="highlight">Home Domain:</span> draculatokens.com</p>
+                    <p><span class="highlight">Verification:</span> Pending Pi Server</p>
+                    <p><span class="highlight">Wallet:</span> Pi Network</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="cta-section">
+            <h2 style="margin-bottom: 20px;">🦇 Join the DRACULA Community</h2>
+            <p style="margin-bottom: 30px;">Be part of the legendary vampire token revolution on Pi Network!</p>
+            
+            <a href="https://minepi.com/" class="cta-button" target="_blank">Download Pi Wallet</a>
+            <a href="https://api.testnet.minepi.com/assets?asset_code=DRACULA&asset_issuer=GC3E4SQ5EJKLLQ5Q3SNLAFND45OSACSWGR4BTM67WTODT674SZVKFLFT" class="cta-button" target="_blank">View Token</a>
+        </section>
+        
+        <footer>
+            <div class="social-links">
+                <a href="#">🌐 Website</a>
+                <a href="#">📱 Twitter</a>
+                <a href="#">💬 Telegram</a>
+                <a href="#">📧 Contact</a>
+            </div>
+            <p>&copy; 2024 DRACULA TOKEN - Powered by Pi Network</p>
+            <p style="margin-top: 10px; font-size: 0.9em; color: #999;">
+                🧛‍♂️ "The blood is the life... and the token is the future!"
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
