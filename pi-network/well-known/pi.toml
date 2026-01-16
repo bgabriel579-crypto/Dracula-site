@@ -1,0 +1,14 @@
+# Pi Network Token Configuration File
+# DRACULA Token - The Vampire Count from Transylvania
+
+[[CURRENCIES]]
+code="DRACULA"
+issuer="GC3E4SQ5EJKLLQ5Q3SNLAFND45OSACSWGR4BTM67WTODT674SZVKFLFT"
+name="DRACULA TOKEN"
+desc="🧛‍♂️ Dracula - The Vampire Count from Transylvania! Limited edition token with 14,000,010,000 total supply."
+image="https://draculatokens.com/token-image.png"
+
+# Token metadata
+decimals=7
+fixed_supply=true
+total_supply="14000010000"
